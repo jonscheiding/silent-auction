@@ -1,10 +1,8 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Jumbotron from 'react-bootstrap/Jumbotron';
 
-import { AuctionItem } from './AuctionItem';
+import { AuctionItemList } from './AuctionItemList';
+import { Welcome } from './Welcome';
 
 const auctionItems = [
   {
@@ -72,13 +70,8 @@ const auctionItems = [
 export const App = () => (
   <main role="main">
     <Container>
-      <Row>
-        {auctionItems.map((auctionItem, i) => (
-          <Col md={4}>
-            <AuctionItem key={i} auctionItem={auctionItem} />
-          </Col>
-        ))}
-      </Row>
+      <Welcome />
+      <AuctionItemList auctionItems={auctionItems} />
     </Container>
   </main>
 );
