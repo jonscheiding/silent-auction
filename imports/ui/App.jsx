@@ -1,6 +1,7 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 
+import { BidderEmailProvider } from './bidderEmail';
 import { AuctionItemList } from './AuctionItemList';
 import { Welcome } from './Welcome';
 
@@ -67,11 +68,15 @@ const auctionItems = [
   }
 ];
 
-export const App = () => (
-  <main role="main">
-    <Container>
-      <Welcome />
-      <AuctionItemList auctionItems={auctionItems} />
-    </Container>
-  </main>
-);
+export const App = () => {
+  return (
+    <BidderEmailProvider>
+      <main role="main">
+        <Container>
+          <Welcome />
+          <AuctionItemList auctionItems={auctionItems} />
+        </Container>
+      </main>
+    </BidderEmailProvider>
+  );
+};
