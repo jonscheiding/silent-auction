@@ -3,7 +3,7 @@ import Container from 'react-bootstrap/Container';
 
 import { BidderEmailProvider } from './bidderEmail';
 import { AuctionItemList } from './AuctionItemList';
-import { Welcome } from './Welcome';
+import { Splash } from './Splash';
 
 const auctionItems = [
   {
@@ -73,7 +73,7 @@ export const App = () => {
     <BidderEmailProvider>
       <main role="main">
         <Container>
-          <Welcome />
+          <Splash />
           <AuctionItemList auctionItems={auctionItems} />
         </Container>
       </main>

@@ -7,8 +7,8 @@ import { AuctionItem } from './AuctionItem';
 export const AuctionItemList = ({auctionItems}) => (
   <Row>
     {auctionItems.map((auctionItem, i) => (
-      <Col md={4}>
-        <AuctionItem key={i} auctionItem={auctionItem} />
+      <Col md={4} key={i}>
+        <AuctionItem auctionItem={auctionItem} />
       </Col>
     ))}
   </Row>
