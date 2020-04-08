@@ -7,7 +7,7 @@ import { Bidders } from '../api/bidders';
 import { BidderLogin } from './BidderLogin';
 import { BidControls } from './BidControls';
 
-export const AuctionItemBid = ({auctionItem}) => {
+export const AuctionItemBid = ({auctionItem, currentBid}) => {
   const [bidderEmail, setBidderEmail] = useBidderEmail();
 
   let bidder = useTracker(() => {
@@ -25,7 +25,7 @@ export const AuctionItemBid = ({auctionItem}) => {
       <p>Bidding as {bidderEmail}.</p>
       {
         bidder.isValidated
-          ? <BidControls auctionItem={auctionItem} />
+          ? <BidControls auctionItem={auctionItem} currentBidder={bidder} currentBid={currentBid} />
           : <p>Awaiting validation.</p>
       }
     </>

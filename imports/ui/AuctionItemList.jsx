@@ -16,7 +16,7 @@ export const AuctionItemList = ({auctionItems}) => {
   let detailsAuctionItem = null;
 
   if(match != null) {
-    detailsAuctionItem = auctionItems.find(i => i.id.toString() === match.params.id);
+    detailsAuctionItem = auctionItems.find(i => i.id === match.params.id);
     if(!detailsAuctionItem) {
       setTimeout(() => closeDetails());
     }
