@@ -3,9 +3,9 @@ import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-import { formatCurrency } from '../util';
+import { formatCurrency } from '../../util';
 import { AuctionItemBid } from './AuctionItemBid';
-import { Bids } from '../api/bids';
+import { Bids } from '../../api/bids';
 
 export const AuctionItemDetails = ({show, onHide, auctionItem}) => {
   const currentBid = useTracker(() => {

@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 
-import { useBidderEmail } from './bidderEmail';
-import { Bidders } from '../api/bidders';
+import { useBidderEmail } from '../localBidder';
+import { Bidders } from '../../api/bidders';
 import { BidderLogin } from './BidderLogin';
 import { BidControls } from './BidControls';
 
