@@ -9,7 +9,7 @@ export const BidderLogin = ({bidderEmail, setBidderEmail}) => {
 
   const handleEmailChange = (e) => setEnteredEmail(e.target.value);
   
-  const handleValidateClick = (e) => {
+  const handleEmailSubmit = (e) => {
     Meteor.call('bidders.login', enteredEmail);
 
     setBidderEmail(enteredEmail);
@@ -17,13 +17,13 @@ export const BidderLogin = ({bidderEmail, setBidderEmail}) => {
   }
 
   return (
-    <Form>
+    <Form onSubmit={handleEmailSubmit}>
       <Form.Group>
         <Form.Control type="email" 
           value={enteredEmail} onChange={handleEmailChange}
           placeholder="Email address" />
       </Form.Group>
-      <Button variant="primary" onClick={handleValidateClick} type="submit">
+      <Button variant="primary" type="submit">
         Submit
       </Button>
     </Form>

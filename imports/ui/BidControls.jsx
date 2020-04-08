@@ -8,7 +8,7 @@ export const BidControls = ({auctionItem, currentBidder, currentBid}) => {
   const handleEnteredAmountChange = (e) => 
     setEnteredAmount(e.target.value);
 
-  const handleBidClick = (e) => {
+  const handleBidSubmit = (e) => {
     Meteor.call('bids.bid',
       auctionItem.id,
       currentBidder._id,
@@ -22,13 +22,13 @@ export const BidControls = ({auctionItem, currentBidder, currentBid}) => {
   }
 
   return (
-    <Form>
+    <Form onSubmit={handleBidSubmit}>
       <Form.Group>
         <Form.Label>Your Bid</Form.Label>
         <Form.Control type="number" 
           value={enteredAmount} onChange={handleEnteredAmountChange} />
       </Form.Group>
-      <Button variant="primary" onClick={handleBidClick} type="submit">
+      <Button variant="primary" type="submit">
         Bid
       </Button>
     </Form>
