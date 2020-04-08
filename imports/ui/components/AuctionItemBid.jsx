@@ -7,27 +7,29 @@ import { Bidders } from '../../api/bidders';
 import { BidderLogin } from './BidderLogin';
 import { BidControls } from './BidControls';
 
-export const AuctionItemBid = ({auctionItem, currentBid}) => {
+export const AuctionItemBid = ({ auctionItem, currentBid }) => {
   const [bidderEmail, setBidderEmail] = useBidderEmail();
 
-  let bidder = useTracker(() => {
+  const bidder = useTracker(() => {
     Meteor.subscribe('bidders.get', bidderEmail);
 
-    return Bidders.findOne({emailAddress: bidderEmail});
+    return Bidders.findOne({ emailAddress: bidderEmail });
   });
 
-  if(!bidderEmail || !bidder) {
-    return <BidderLogin bidderEmail={bidderEmail} setBidderEmail={setBidderEmail} />
+  if (!bidderEmail || !bidder) {
+    return <BidderLogin bidderEmail={bidderEmail} setBidderEmail={setBidderEmail} />;
   }
 
   return (
     <>
-      <p>Bidding as {bidderEmail}.</p>
+      <p>
+        Bidding as {bidderEmail}.
+      </p>
       {
         bidder.isValidated
           ? <BidControls auctionItem={auctionItem} currentBidder={bidder} currentBid={currentBid} />
           : <p>Awaiting validation.</p>
       }
     </>
-  )
+  );
 };
