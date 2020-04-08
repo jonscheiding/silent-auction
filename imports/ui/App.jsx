@@ -1,4 +1,6 @@
 import React from 'react';
+import { Router } from 'react-router';
+import { createBrowserHistory } from 'history';
 import Container from 'react-bootstrap/Container';
 
 import { BidderEmailProvider } from './bidderEmail';
@@ -7,18 +9,21 @@ import { Splash } from './Splash';
 
 const auctionItems = [
   {
+    id: 1,
     title: 'Mona Lisa',
     artist: 'Leonardo da Vinci',
     imageUrl: 'https://www.brushwiz.com/images/paintings/m/Mona_Lisa_by_Leonardo_Da_Vinci.jpg',
     bid: 242.5
   },
   {
+    id: 2,
     title: 'The Starry Night',
     artist: 'Vincent Van Gogh',
     imageUrl: 'https://www.brushwiz.com/images/paintings/t/The_Starry_Night_by_Vincent_Van_Gogh.jpg',
     bid: 220
   },
   {
+    id: 3,
     title: 'The Scream',
     artist: 'Edvard Munch',
     imageUrl: 'https://www.brushwiz.com/images/paintings/t/The_Scream_by_Edvard_Munch.jpg',
@@ -31,12 +36,14 @@ const auctionItems = [
     bid: 480
   },
   {
+    id: 4,
     title: 'The Kiss',
     artist: 'Gustav Klimt',
     imageUrl: 'https://www.brushwiz.com/images/paintings/t/The_Kiss_by_Gustav_Klimt.jpg',
     bid: 202
   },
   {
+    id: 5,
     title: 'The Arnolfini Portrait',
     artist: 'Jan van Eyck',
     imageUrl: 'https://www.brushwiz.com/images/paintings/t/The_Arnolfini_Portrait_by_Jan_van_Eyck_V44.jpg',
@@ -49,18 +56,21 @@ const auctionItems = [
     bid: 220
   },
   {
+    id: 6,
     title: 'Impression, Sunrise',
     artist: 'Claude Monet',
     imageUrl: 'https://www.brushwiz.com/images/paintings/i/Impression,_Sunrise_by_Claude_Monet.jpg',
     bid: 207.5
   },
   {
+    id: 7,
     title: 'Las Meninas',
     artist: 'Diego Vleazquez',
     imageUrl: 'https://www.brushwiz.com/images/paintings/l/Las_Meninas_by_Diego_Velazquez_L36.jpg',
     bid: 291
   },
   {
+    id: 8,
     title: 'The Creation Of Adam',
     artist: 'Michelangelo',
     imageUrl: 'https://www.brushwiz.com/images/paintings/t/The_Creation_Of_Adam_by_Michelangelo.jpg',
@@ -68,15 +78,19 @@ const auctionItems = [
   }
 ];
 
+const history = createBrowserHistory();
+
 export const App = () => {
   return (
     <BidderEmailProvider>
-      <main role="main">
-        <Container>
-          <Splash />
-          <AuctionItemList auctionItems={auctionItems} />
-        </Container>
-      </main>
+      <Router history={history}>
+        <main role="main">
+          <Container>
+            <Splash />
+            <AuctionItemList auctionItems={auctionItems} />
+          </Container>
+        </main>
+      </Router>
     </BidderEmailProvider>
   );
 };
