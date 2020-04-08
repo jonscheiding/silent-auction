@@ -1,7 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
-import AuctionItemBid from './AuctionItemBid';
+import { formatCurrency } from '../util';
+import { AuctionItemBid } from './AuctionItemBid';
 
 export const AuctionItemDetails = ({show, onHide, auctionItem}) => (
   <Modal show={show} onHide={onHide}>
@@ -13,6 +14,7 @@ export const AuctionItemDetails = ({show, onHide, auctionItem}) => (
           </Modal.Header>
           <Modal.Body>
             <p>by {auctionItem.artist}</p>
+            <p>Current bid: {formatCurrency(auctionItem.bid)}</p>
             <AuctionItemBid auctionItem={auctionItem} />
           </Modal.Body>
         </>

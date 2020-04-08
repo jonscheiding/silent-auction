@@ -1,13 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
-const currencyFormat = new Intl.NumberFormat('en-US',
-  {
-    style: 'currency',
-    currency: 'USD'
-  }
-);
+import { formatCurrency } from '../util';
 
 export const AuctionItem = ({auctionItem, onDetailsClick}) => {
   return (
@@ -16,7 +11,7 @@ export const AuctionItem = ({auctionItem, onDetailsClick}) => {
       <Card.Body>
         <Card.Title>{auctionItem.title}</Card.Title>
         <Card.Subtitle>{auctionItem.artist}</Card.Subtitle>
-        <Card.Text>{currencyFormat.format(auctionItem.bid)}</Card.Text>
+        <Card.Text>{formatCurrency(auctionItem.bid)}</Card.Text>
         <Button onClick={onDetailsClick}>Details</Button>        
       </Card.Body>
     </Card>
