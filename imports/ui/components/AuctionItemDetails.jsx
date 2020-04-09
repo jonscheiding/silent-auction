@@ -1,21 +1,14 @@
-import { Meteor } from 'meteor/meteor';
-import { useTracker } from 'meteor/react-meteor-data';
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import { formatCurrency } from '../../util';
+import { useCurrentBid } from '../hooks/meteor';
 import { AuctionItemBid } from './AuctionItemBid';
-import { Bids } from '../../api/bids';
 
 export const AuctionItemDetails = ({ show, onHide, auctionItem }) => {
-  const currentBid = useTracker(() => {
-    if (auctionItem == null) return { amount: 0 };
+  const itemId = auctionItem ? auctionItem.id : null;
 
-    Meteor.subscribe('bids.current', auctionItem.id);
-
-    return Bids.findOne({ itemId: auctionItem.id })
-      || { amount: 0 };
-  });
+  const currentBid = useCurrentBid(itemId) || { amount: 0 };
 
   return (
     <Modal show={show} onHide={onHide}>
