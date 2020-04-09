@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 export const BidControls = ({ auctionItem, currentBidder, currentBid }) => {
   const [enteredAmount, setEnteredAmount] = useState(currentBid.amount + 10);
+
+  useEffect(() => setEnteredAmount(currentBid.amount + 10), [currentBid]);
 
   const handleEnteredAmountChange = (e) => setEnteredAmount(e.target.value);
 
