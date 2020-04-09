@@ -1,12 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
+import { check, Match } from 'meteor/check';
 
 export const Bidders = new Mongo.Collection('bidders');
 
 if (Meteor.isServer) {
   Meteor.publish('bidders.get', function biddersGet(emailAddress) {
-    check(emailAddress, String);
+    check(emailAddress, Match.Maybe(String));
     return Bidders.find({ emailAddress });
   });
 }
