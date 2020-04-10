@@ -3,7 +3,8 @@
   "rules": {
     "import/prefer-default-export": "off",
     "react/prop-types": "off",
-    "react/jsx-one-expression-per-line": "off"
+    "react/jsx-one-expression-per-line": "off",
+    "implicit-arrow-linebreak": "off"
   },
   "settings": {
     "import/resolver": {
