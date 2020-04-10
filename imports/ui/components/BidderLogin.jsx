@@ -21,7 +21,7 @@ export const BidderLogin = ({ bidderEmail, setBidderEmail }) => {
       <Form.Group>
         <Form.Control
           type="email"
-          value={enteredEmail}
+          value={enteredEmail || ''}
           onChange={handleEmailChange}
           placeholder="Email address"
         />

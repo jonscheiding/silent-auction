@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 
@@ -21,6 +22,10 @@ Meteor.methods({
       return;
     }
 
-    Bidders.insert({ emailAddress, isValidated: false });
+    Bidders.insert({
+      emailAddress,
+      validationCode: Random.hexString(16),
+      isValidated: false,
+    });
   },
 });
