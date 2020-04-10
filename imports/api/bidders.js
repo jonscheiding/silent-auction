@@ -28,4 +28,15 @@ Meteor.methods({
       isValidated: false,
     });
   },
+
+  'bidders.validate'(validationCode) {
+    check(validationCode, String);
+
+    Bidders.update(
+      { validationCode },
+      {
+        $set: { isValidated: true },
+      },
+    );
+  },
 });
