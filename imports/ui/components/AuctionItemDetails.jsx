@@ -6,9 +6,10 @@ import { useCurrentBid } from '../hooks/meteor';
 import { AuctionItemBid } from './AuctionItemBid';
 
 export const AuctionItemDetails = ({ show, onHide, auctionItem }) => {
-  const itemId = auctionItem ? auctionItem.id : null;
+  const itemId = auctionItem ? auctionItem._id : null;
 
-  const currentBid = useCurrentBid(itemId) || { amount: 0 };
+  const emptyBid = { amount: 0 };
+  const currentBid = useCurrentBid(itemId) || emptyBid;
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -17,11 +18,11 @@ export const AuctionItemDetails = ({ show, onHide, auctionItem }) => {
           : (
             <>
               <Modal.Header closeButton>
-                <Modal.Title>{auctionItem.title}</Modal.Title>
+                <Modal.Title>{auctionItem.content.title}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <p>
-                  by {auctionItem.artist}
+                  by {auctionItem.content.artist}
                 </p>
                 <p>
                   Current bid: {formatCurrency(currentBid.amount)}

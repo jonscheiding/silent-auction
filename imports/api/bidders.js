@@ -7,7 +7,7 @@ import { check, Match } from 'meteor/check';
 export const Bidders = new Mongo.Collection('bidders');
 
 if (Meteor.isServer) {
-  Meteor.publish('bidders.get', function biddersGet(emailAddress) {
+  Meteor.publish('bidders.get', (emailAddress) => {
     check(emailAddress, Match.Maybe(String));
     return Bidders.find({ emailAddress });
   });

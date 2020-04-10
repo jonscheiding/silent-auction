@@ -12,7 +12,7 @@ export const BidControls = ({ auctionItem, currentBidder, currentBid }) => {
 
   const handleBidSubmit = (e) => {
     Meteor.call('bids.bid',
-      auctionItem.id,
+      auctionItem._id,
       currentBidder._id,
       Number(enteredAmount));
 

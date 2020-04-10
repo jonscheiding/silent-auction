@@ -7,7 +7,7 @@ import { Bidders } from './bidders';
 export const Bids = new Mongo.Collection('bids');
 
 if (Meteor.isServer) {
-  Meteor.publish('bids.current', function bidsCurrent(itemId) {
+  Meteor.publish('bids.current', (itemId) => {
     check(itemId, String);
 
     return Bids.find(
