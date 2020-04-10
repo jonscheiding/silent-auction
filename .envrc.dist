@@ -1,0 +1,2 @@
+export MAIL_URL='smtp://user:password@server:587'
+export MAIL_FROM='me@example.com'

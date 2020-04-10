@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Email } from 'meteor/email';
 import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
@@ -22,10 +23,19 @@ Meteor.methods({
       return;
     }
 
+    const validationCode = Random.hexString(16);
+
     Bidders.insert({
       emailAddress,
-      validationCode: Random.hexString(16),
+      validationCode,
       isValidated: false,
+    });
+
+    Email.send({
+      to: emailAddress,
+      from: process.env.MAIL_FROM,
+      subject: 'MCP auction',
+      text: `${Meteor.absoluteUrl()}validate/${validationCode}`,
     });
   },
 
