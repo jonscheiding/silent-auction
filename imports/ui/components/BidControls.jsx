@@ -3,23 +3,23 @@ import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-export const BidControls = ({ auctionItem, currentBidder, currentBid }) => {
-  const [enteredAmount, setEnteredAmount] = useState(currentBid.amount + 10);
+export const BidControls = ({ item, bidder }) => {
+  const [enteredAmount, setEnteredAmount] = useState(item.currentBid.amount + 10);
 
-  useEffect(() => setEnteredAmount(currentBid.amount + 10), [currentBid]);
+  useEffect(() => setEnteredAmount(item.currentBid.amount + 10), [item.currentBid.amount]);
 
   const handleEnteredAmountChange = (e) => setEnteredAmount(e.target.value);
 
   const handleBidSubmit = (e) => {
     Meteor.call('items.bid',
-      auctionItem._id,
-      currentBidder._id,
+      item._id,
+      bidder._id,
       Number(enteredAmount));
 
     e.preventDefault();
   };
 
-  if (currentBidder._id === currentBid.bidderId) {
+  if (bidder._id === item.currentBid.bidderId) {
     return (<p>You are the current high bidder!</p>);
   }
 

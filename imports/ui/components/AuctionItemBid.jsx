@@ -5,7 +5,7 @@ import { useBidderInformation } from '../hooks/meteor';
 import { BidderLogin } from './BidderLogin';
 import { BidControls } from './BidControls';
 
-export const AuctionItemBid = ({ auctionItem, currentBid }) => {
+export const AuctionItemBid = ({ item }) => {
   const [bidderEmail, setBidderEmail] = useLocalBidderEmail();
 
   const bidder = useBidderInformation(bidderEmail);
@@ -21,7 +21,7 @@ export const AuctionItemBid = ({ auctionItem, currentBid }) => {
       </p>
       {
         bidder.isValidated
-          ? <BidControls auctionItem={auctionItem} currentBidder={bidder} currentBid={currentBid} />
+          ? <BidControls item={item} bidder={bidder} />
           : <p>Awaiting validation.</p>
       }
     </>
