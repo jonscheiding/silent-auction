@@ -1,12 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 
-import { formatCurrency } from '../../util';
 import { useItem } from '../hooks/meteor';
-import { AuctionItemBid } from './AuctionItemBid';
+import { BidControls } from './BidControls';
 
 export const AuctionItemDetails = ({ show, onHide, itemId }) => {
   const item = useItem(itemId);
@@ -31,18 +27,7 @@ export const AuctionItemDetails = ({ show, onHide, itemId }) => {
         />
       </Modal.Body>
       <Modal.Footer>
-        <Container>
-          <Row>
-            <Col md={6}>
-              Current bid:
-              <br />
-              {formatCurrency(item.currentBid.amount)}
-            </Col>
-            <Col md={6}>
-              <AuctionItemBid item={item} />
-            </Col>
-          </Row>
-        </Container>
+        <BidControls currentBid={item.currentBid} itemId={item._id} />
       </Modal.Footer>
     </Modal>
   );

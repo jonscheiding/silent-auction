@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import React, { useState } from 'react';
-
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
-export const BidderLogin = ({ bidderEmail, setBidderEmail }) => {
+import { useLocalBidderEmail } from '../hooks/localStorage';
+
+export const BidderLogin = () => {
+  const [bidderEmail, setBidderEmail] = useLocalBidderEmail();
   const [enteredEmail, setEnteredEmail] = useState(bidderEmail);
 
   const handleEmailChange = (e) => setEnteredEmail(e.target.value);
@@ -24,6 +26,7 @@ export const BidderLogin = ({ bidderEmail, setBidderEmail }) => {
           value={enteredEmail || ''}
           onChange={handleEmailChange}
           placeholder="Email address"
+          required
         />
       </Form.Group>
       <Button variant="primary" type="submit">
