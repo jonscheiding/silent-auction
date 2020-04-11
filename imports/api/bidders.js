@@ -31,12 +31,14 @@ Meteor.methods({
       isValidated: false,
     });
 
-    Email.send({
-      to: emailAddress,
-      from: process.env.MAIL_FROM,
-      subject: 'MCP auction',
-      text: `${Meteor.absoluteUrl()}validate/${validationCode}`,
-    });
+    if (Meteor.isServer) {
+      Email.send({
+        to: emailAddress,
+        from: process.env.MAIL_FROM,
+        subject: 'MCP auction',
+        text: `${Meteor.absoluteUrl()}validate/${validationCode}`,
+      });
+    }
   },
 
   'bidders.validate'(validationCode) {
