@@ -3,6 +3,8 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
+import { formatCurrency } from '../../util';
+
 const AspectImg = styled.div`
   position:relative;
   width: 100%;
@@ -21,7 +23,10 @@ export const AuctionItem = ({ item, onSelectItem }) => (
     <Card.Body>
       <Card.Title>{item.content.title}</Card.Title>
       <Card.Subtitle>{item.content.artist}</Card.Subtitle>
-      <Button onClick={() => onSelectItem(item)}>Details</Button>
     </Card.Body>
+    <Card.Footer>
+      <Button className="float-right" onClick={() => onSelectItem(item)}>Details</Button>
+      <h3>{formatCurrency(item.currentBid.amount)}</h3>
+    </Card.Footer>
   </Card>
 );
