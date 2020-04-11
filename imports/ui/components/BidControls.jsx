@@ -11,7 +11,7 @@ export const BidControls = ({ auctionItem, currentBidder, currentBid }) => {
   const handleEnteredAmountChange = (e) => setEnteredAmount(e.target.value);
 
   const handleBidSubmit = (e) => {
-    Meteor.call('bids.bid',
+    Meteor.call('items.bid',
       auctionItem._id,
       currentBidder._id,
       Number(enteredAmount));

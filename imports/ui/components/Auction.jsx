@@ -7,19 +7,8 @@ import { AuctionItem } from './AuctionItem';
 import { AuctionItemDetails } from './AuctionItemDetails';
 
 export const Auction = ({ items, selectedItemId, onSelectedItemIdChanged }) => {
-  const emptyItem = { content: { } };
-
-  let selectedItem = null;
-
   const setSelectedItem = (item) => onSelectedItemIdChanged(item._id);
   const clearSelectedItem = () => onSelectedItemIdChanged(null);
-
-  if (selectedItemId != null) {
-    selectedItem = items.find((i) => i._id === selectedItemId);
-    if (!selectedItem) {
-      setTimeout(() => onSelectedItemIdChanged(null));
-    }
-  }
 
   return (
     <Row>
@@ -29,9 +18,9 @@ export const Auction = ({ items, selectedItemId, onSelectedItemIdChanged }) => {
         </Col>
       ))}
       <AuctionItemDetails
-        show={selectedItem !== null}
+        show={selectedItemId != null}
         onHide={clearSelectedItem}
-        auctionItem={selectedItem || emptyItem}
+        itemId={selectedItemId}
       />
     </Row>
   );

@@ -2,36 +2,30 @@ import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import { formatCurrency } from '../../util';
-import { useCurrentBid } from '../hooks/meteor';
+import { useItem } from '../hooks/meteor';
 import { AuctionItemBid } from './AuctionItemBid';
 
-export const AuctionItemDetails = ({ show, onHide, auctionItem }) => {
-  const itemId = auctionItem ? auctionItem._id : null;
+export const AuctionItemDetails = ({ show, onHide, itemId }) => {
+  const item = useItem(itemId);
 
-  const emptyBid = { amount: 0 };
-  const currentBid = useCurrentBid(itemId) || emptyBid;
+  if (!item) {
+    return <Modal show={show} onHide={onHide} />;
+  }
 
   return (
     <Modal show={show} onHide={onHide}>
-      {
-        auctionItem == null ? null
-          : (
-            <>
-              <Modal.Header closeButton>
-                <Modal.Title>{auctionItem.content.title}</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <p>
-                  by {auctionItem.content.artist}
-                </p>
-                <p>
-                  Current bid: {formatCurrency(currentBid.amount)}
-                </p>
-                <AuctionItemBid auctionItem={auctionItem} currentBid={currentBid} />
-              </Modal.Body>
-            </>
-          )
-      }
+      <Modal.Header closeButton>
+        <Modal.Title>{item.content.title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>
+          by {item.content.artist}
+        </p>
+        <p>
+          Current bid: {formatCurrency(item.currentBid.amount)}
+        </p>
+        <AuctionItemBid auctionItem={item} currentBid={item.currentBid} />
+      </Modal.Body>
     </Modal>
   );
 };

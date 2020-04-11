@@ -2,7 +2,6 @@ import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 
 import { Bidders } from '../../api/bidders';
-import { Bids } from '../../api/bids';
 import { Items } from '../../api/items';
 
 export const useBidderInformation = (emailAddress) => useTracker(() => {
@@ -11,15 +10,16 @@ export const useBidderInformation = (emailAddress) => useTracker(() => {
   return Bidders.findOne({ emailAddress });
 });
 
-export const useCurrentBid = (itemId) => useTracker(() => {
-  if (itemId == null) return null;
-
-  Meteor.subscribe('bids.current', itemId);
-
-  return Bids.findOne({ itemId });
-});
-
 export const useItems = () => useTracker(() => {
   Meteor.subscribe('items');
-  return Items.find({}).fetch();
+  return Items.find({}).fetch().map((item) => ({
+    content: item.content,
+    _id: item._id,
+  }));
+});
+
+export const useItem = (id) => useTracker(() => {
+  Meteor.subscribe('items');
+
+  return Items.findOne({ _id: id });
 });
