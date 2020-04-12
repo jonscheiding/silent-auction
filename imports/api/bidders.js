@@ -32,11 +32,10 @@ Meteor.methods({
     });
 
     if (Meteor.isServer) {
-      Email.send({
+      Email.sendWithTemplate({
+        templateName: 'ValidationEmail',
         to: emailAddress,
-        from: process.env.MAIL_FROM,
-        subject: 'MCP auction',
-        text: `${Meteor.absoluteUrl()}validate/${validationCode}`,
+        data: { validationCode },
       });
     }
   },

@@ -88,7 +88,8 @@ const BidEntryWrapper = ({ bidder, isHighBidder, children }) => {
     return (
       <p>
         In order to bid, please enter your e-mail address below.
-        We&apos;ll use this to contact you if you win!
+        We&apos;ll use this to contact you
+        for payment and delivery arrangements if you win something!
       </p>
     );
   }

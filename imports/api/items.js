@@ -1,8 +1,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import { Email } from 'meteor/email';
 
 import itemContent from './items.json';
+import { Bidders } from './bidders';
 
 export const Items = new Mongo.Collection('items', {
   transform: (item) => {
@@ -26,9 +28,14 @@ Meteor.methods({
     check(amount, Number);
 
     const item = Items.findOne({ _id: itemId });
+    const bidder = Bidders.findOne({ _id: bidderId });
 
     if (!item) {
       throw new Meteor.Error(`Item '${itemId}' does not exist.`);
+    }
+
+    if (!bidder) {
+      throw new Meteor.Error(`Bidder '${bidderId}' does not exist.`);
     }
 
     if (item.currentBid.bidderId === bidderId) {
@@ -39,9 +46,35 @@ Meteor.methods({
       throw new Meteor.Error(`The current bid of ${item.currentBid.amount} on item '${itemId}' is higher than ${amount}.`);
     }
 
+    const previousBidderId = item.currentBid.bidderId;
+
     Items.update({ _id: item._id }, {
       $push: { bids: { bidderId, amount } },
     });
+
+    if (Meteor.isServer) {
+      Email.sendWithTemplate({
+        templateName: 'BidEmail',
+        to: bidder.emailAddress,
+        data: {
+          itemTitle: item.content.title,
+        },
+      });
+
+      const previousBidder = Bidders.findOne({ _id: previousBidderId });
+      if (!previousBidder) {
+        return;
+      }
+
+      Email.sendWithTemplate({
+        templateName: 'OutbidEmail',
+        to: previousBidder.emailAddress,
+        data: {
+          itemId: item._id,
+          itemTitle: item.content.title,
+        },
+      });
+    }
   },
 });
 
