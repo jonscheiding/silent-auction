@@ -1,0 +1,7 @@
+language: node_js
+
+before_install:
+- curl https://install.meteor.com/ | sudo sh
+
+script:
+- meteor npm run lint
