@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import { formatCurrency } from '../../util';
 
 const AspectImg = styled.div`
-  position:relative;
+  position: relative;
   width: 100%;
   height: 0;
   padding-bottom: 50%;
