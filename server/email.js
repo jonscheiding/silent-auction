@@ -4,12 +4,13 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import Templates from './templates/EmailTemplates';
+import content from '../imports/api/content.json';
 
 Email.sendWithTemplate = ({ templateName, to, data }) => {
   const Template = Templates[templateName];
-  const auctionTitle = "MCP's Not-So-Silent Auction";
+  const auctionTitle = content.auction.title;
 
-  const content = ReactDOMServer.renderToString(
+  const html = ReactDOMServer.renderToString(
     <Template
       baseUrl={Meteor.absoluteUrl()}
       auctionTitle={auctionTitle}
@@ -22,6 +23,6 @@ Email.sendWithTemplate = ({ templateName, to, data }) => {
     to,
     subject: `${Template.subject} (${auctionTitle})`,
     from: process.env.MAIL_FROM,
-    html: content,
+    html,
   });
 };

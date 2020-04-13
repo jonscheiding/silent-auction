@@ -3,19 +3,19 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 
-import itemContent from './items.json';
+import content from './content.json';
 import { Bidders } from './bidders';
 
 export const Items = new Mongo.Collection('items', {
   transform: (item) => {
-    const content = itemContent.find((i) => i.reference === item.reference);
+    const itemContent = content.items.find((i) => i.reference === item.reference);
 
     const sortedBids = [...item.bids].sort((a, b) => b.amount - a.amount);
     const currentBid = sortedBids[0] || { amount: 0 };
 
     return {
       ...item,
-      content,
+      content: itemContent,
       currentBid,
     };
   },
@@ -82,7 +82,7 @@ if (Meteor.isServer) {
   Meteor.publish('items', () => Items.find({}));
 
   Meteor.startup(() => {
-    for (const item of itemContent) {
+    for (const item of content.items) {
       Items.upsert(
         { reference: item.reference },
         {
