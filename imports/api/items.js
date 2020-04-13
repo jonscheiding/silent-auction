@@ -88,6 +88,7 @@ if (Meteor.isServer) {
         {
           $setOnInsert: {
             reference: item.reference,
+            bids: [],
           },
         },
       );
