@@ -50,4 +50,20 @@ Meteor.methods({
       },
     );
   },
+
+  'bidders.resendValidation'(bidderId) {
+    check(bidderId, String);
+
+    if (!Meteor.isServer) {
+      return;
+    }
+
+    const bidder = Bidders.findOne({ _id: bidderId });
+
+    Email.sendWithTemplate({
+      templateName: 'ValidationEmail',
+      to: bidder.emailAddress,
+      data: { validationCode: bidder.validationCode },
+    });
+  },
 });

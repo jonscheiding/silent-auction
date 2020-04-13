@@ -10,6 +10,7 @@ import { formatCurrency } from '../../util';
 import { useLocalBidderInformation } from '../hooks/meteor';
 import { BidEntry } from './BidEntry';
 import { BidderLogin } from './BidderLogin';
+import { BidderIdentification } from './BidderIdentification';
 
 export const BidControls = ({ currentBid, itemId }) => {
   const initialAmount = currentBid.amount + 10;
@@ -77,13 +78,17 @@ const BidSubmitWrapper = ({ bidder, isHighBidder, children }) => {
 
   return (
     <>
-      <h6>Bidding as {bidder.emailAddress}</h6>
+      <BidderIdentification />
       {bidder.isValidated && !isHighBidder ? children : null}
     </>
   );
 };
 
 const BidEntryWrapper = ({ bidder, isHighBidder, children }) => {
+  const handleResendClick = () => {
+    Meteor.call('bidders.resendValidation', bidder._id);
+  };
+
   if (!bidder) {
     return (
       <p>
@@ -97,8 +102,9 @@ const BidEntryWrapper = ({ bidder, isHighBidder, children }) => {
   if (!bidder.isValidated) {
     return (
       <p>
-        We sent you an e-mail to validate your e-mail address.
-        Please click the link in the e-mail to enable bidding.
+        We sent you a a link to validate your e-mail address.
+        Please click it to start bidding.<br />
+        <Button variant="link" onClick={handleResendClick}>Click here to get it re-sent.</Button>
       </p>
     );
   }
