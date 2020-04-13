@@ -4,11 +4,11 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Bidders } from '../../api/bidders';
 import { Bids } from '../../api/bids';
 
-export const useBidderInformation = (emailAddress) => useTracker(() => {
-  Meteor.subscribe('bidders.get', emailAddress);
+export const useBidderInformation = (emailAddress) => useTracker(() =>
+// Meteor.subscribe('bidders.get', emailAddress);
 
-  return Bidders.findOne({ emailAddress });
-});
+  // return Bidders.findOne({ emailAddress });
+  Meteor.user());
 
 export const useCurrentBid = (itemId) => useTracker(() => {
   if (itemId == null) return null;

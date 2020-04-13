@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 import React, { useState } from 'react';
 
 import Button from 'react-bootstrap/Button';
@@ -10,7 +11,7 @@ export const BidderLogin = ({ bidderEmail, setBidderEmail }) => {
   const handleEmailChange = (e) => setEnteredEmail(e.target.value);
 
   const handleEmailSubmit = (e) => {
-    Meteor.call('bidders.login', enteredEmail);
+    Meteor.call('users.login', enteredEmail);
 
     setBidderEmail(enteredEmail);
     e.preventDefault();
