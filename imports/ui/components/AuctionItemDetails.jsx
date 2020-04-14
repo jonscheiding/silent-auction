@@ -52,7 +52,7 @@ export const AuctionItemDetails = ({ show, onHide, itemId }) => {
         }
       </Modal.Body>
       <Modal.Footer>
-        <BidControls currentBid={item.currentBid} itemId={item._id} />
+        <BidControls currentBid={item.currentBid} isClosed={item.isClosed} itemId={item._id} />
       </Modal.Footer>
     </Modal>
   );

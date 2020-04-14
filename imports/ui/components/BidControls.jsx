@@ -12,7 +12,7 @@ import { BidEntry } from './BidEntry';
 import { BidderLogin } from './BidderLogin';
 import { BidderIdentification } from './BidderIdentification';
 
-export const BidControls = ({ currentBid, itemId }) => {
+export const BidControls = ({ currentBid, isClosed, itemId }) => {
   const initialAmount = currentBid.amount + 10;
   const [enteredAmount, setEnteredAmount] = useState(initialAmount);
 
@@ -42,7 +42,7 @@ export const BidControls = ({ currentBid, itemId }) => {
             </h3>
           </Col>
           <Col md={6}>
-            <BidEntryWrapper bidder={bidder} isHighBidder={isHighBidder}>
+            <BidEntryWrapper bidder={bidder} isClosed={isClosed} isHighBidder={isHighBidder}>
               <BidEntry
                 currentAmount={currentBid.amount}
                 enteredAmount={enteredAmount}
@@ -54,7 +54,7 @@ export const BidControls = ({ currentBid, itemId }) => {
         </Row>
         <Row>
           <Col>
-            <BidSubmitWrapper bidder={bidder} isHighBidder={isHighBidder}>
+            <BidSubmitWrapper bidder={bidder} isClosed={isClosed} isHighBidder={isHighBidder}>
               <Button type="submit">Bid</Button>
             </BidSubmitWrapper>
           </Col>
@@ -71,8 +71,10 @@ export const BidControls = ({ currentBid, itemId }) => {
   );
 };
 
-const BidSubmitWrapper = ({ bidder, isHighBidder, children }) => {
-  if (!bidder) {
+const BidSubmitWrapper = ({
+  bidder, isHighBidder, isClosed, children,
+}) => {
+  if (!bidder || isClosed) {
     return null;
   }
 
@@ -84,10 +86,16 @@ const BidSubmitWrapper = ({ bidder, isHighBidder, children }) => {
   );
 };
 
-const BidEntryWrapper = ({ bidder, isHighBidder, children }) => {
+const BidEntryWrapper = ({
+  bidder, isHighBidder, isClosed, children,
+}) => {
   const handleResendClick = () => {
     Meteor.call('bidders.resendValidation', bidder._id);
   };
+
+  if (isClosed) {
+    return <h3>Bidding is closed for this item.</h3>;
+  }
 
   if (!bidder) {
     return (
