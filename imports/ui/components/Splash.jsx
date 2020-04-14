@@ -2,7 +2,9 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-import content from '../../api/content.json';
+import { HtmlContent } from './HtmlContent';
+
+import content from '/content.json';
 
 export const Splash = () => (
   <>
@@ -11,8 +13,7 @@ export const Splash = () => (
     </Helmet>
     <Jumbotron>
       <h4>Welcome to {content.auction.title}</h4>
-      <p>{content.auction.welcomeMessage}</p>
-      <p>{content.auction.detailsMessage}</p>
+      <HtmlContent html={content.auction.welcomeMessage} />
     </Jumbotron>
   </>
 );

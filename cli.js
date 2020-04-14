@@ -59,6 +59,16 @@ yargs
     (argv) => command(commands.bidding, argv.itemId.toString(), argv.closed === 'closed'),
   )
 
+  .command(
+    'update-content',
+    'Downloads updated content from Contentful for auction.',
+    (y) => y
+      .option('verbose', {
+        describe: 'Output the retrieved content JSON to the console.',
+      }),
+    commands.updateContent,
+  )
+
   .demandCommand()
   .strict()
   .help()

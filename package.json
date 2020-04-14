@@ -31,9 +31,11 @@
     }
   },
   "devDependencies": {
+    "@contentful/rich-text-html-renderer": "^13.4.0",
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "@types/yargs": "^15.0.4",
     "babel-eslint": "^10.1.0",
+    "contentful": "^7.14.2",
     "eslint": "^6.8.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-import-resolver-meteor": "^0.4.0",
@@ -42,6 +44,7 @@
     "eslint-plugin-meteor": "^7.0.0",
     "eslint-plugin-react": "^7.19.0",
     "mongodb": "^3.5.6",
+    "object-mapper": "^6.2.0",
     "yargs": "^15.3.1"
   }
 }

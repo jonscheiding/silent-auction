@@ -19,7 +19,11 @@ const AspectImg = styled.div`
 
 export const AuctionItem = ({ item, onSelectItem }) => (
   <Card>
-    <Card.Img variant="top" src={item.content.thumbnailUrl} as={AspectImg} />
+    <Card.Img
+      variant="top"
+      src={item.content.previewImageUrl || item.content.fullImageUrl}
+      as={AspectImg}
+    />
     <Card.Body>
       <Card.Title>{item.content.title}</Card.Title>
       <Card.Subtitle>{item.content.artist}</Card.Subtitle>

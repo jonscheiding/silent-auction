@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 
 import Templates from './templates/EmailTemplates';
-import content from '../imports/api/content.json';
+import content from '/content.json';
 
 Email.sendWithTemplate = ({ templateName, to, data }) => {
   const Template = Templates[templateName];

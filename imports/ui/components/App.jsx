@@ -10,7 +10,7 @@ import { Splash } from './Splash';
 import { Validate } from './Validate';
 import { useCurrentAuction } from '../hooks/meteor';
 
-import content from '../../api/content.json';
+import content from '/content.json';
 
 const history = createBrowserHistory();
 
