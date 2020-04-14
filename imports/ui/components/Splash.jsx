@@ -9,10 +9,10 @@ export const Splash = () => (
     <Helmet>
       <title>{content.auction.title}</title>
     </Helmet>
-    <Jumbotron className="text-center">
-      <h1>Welcome to {content.auction.title}!</h1>
-      <h5>{content.auction.welcomeMessage}</h5>
-      <h5>{content.auction.detailsMessage}</h5>
+    <Jumbotron>
+      <h4>Welcome to {content.auction.title}</h4>
+      <p>{content.auction.welcomeMessage}</p>
+      <p>{content.auction.detailsMessage}</p>
     </Jumbotron>
   </>
 );

@@ -2,7 +2,8 @@
   "auction": {
     "title": "MCP's Not-So-Silent Auction",
     "welcomeMessage": "Thanks for joining us! Although we had to cancel our in-person event, we were so excited to share these amazing art pieces and characters with you that we decided to put them online instead!",
-    "detailsMessage": "The auction will be open from MMM DD until MMM DD, and we'll wrap it up with a live streaming event starting MMM DD at H PM. Tune in on our Facebook Live at https://facebook.com/somewhere!"
+    "detailsMessage": "The auction will be open from MMM DD until MMM DD, and we'll wrap it up with a live streaming event starting MMM DD at H PM. Tune in on our Facebook Live at https://facebook.com/somewhere!",
+    "liveStreamUrl": "http://somewhere"
   },
   "items": [
     {
