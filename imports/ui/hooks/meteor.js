@@ -26,11 +26,13 @@ export const useLocalBidderInformation = () => {
 export const useItems = () => useTracker(() => {
   Meteor.subscribe('items');
 
-  return Items.find({}).fetch().map((item) => ({
-    content: item.content,
-    currentBid: item.currentBid,
-    _id: item._id,
-  }));
+  return Items.find({}).fetch()
+    .map((item) => ({
+      content: item.content,
+      currentBid: item.currentBid,
+      _id: item._id,
+    }))
+    .filter((item) => item.content != null);
 });
 
 export const useItem = (id) => useTracker(() => {
