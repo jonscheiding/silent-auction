@@ -3,7 +3,14 @@ import { useTracker } from 'meteor/react-meteor-data';
 
 import { Bidders } from '../../api/bidders';
 import { Items } from '../../api/items';
+import { Auctions } from '../../api/auctions';
 import { useLocalBidderEmail } from './localStorage';
+
+export const useCurrentAuction = () => useTracker(() => {
+  Meteor.subscribe('auctions');
+
+  return Auctions.findOne({}) || {};
+});
 
 export const useBidderInformation = (emailAddress) => useTracker(() => {
   Meteor.subscribe('bidders.get', emailAddress);

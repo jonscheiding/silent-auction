@@ -5,24 +5,33 @@ import Col from 'react-bootstrap/Col';
 
 import { AuctionItem } from './AuctionItem';
 import { AuctionItemDetails } from './AuctionItemDetails';
-import { useItems } from '../hooks/meteor';
+import { useItems, useCurrentAuction } from '../hooks/meteor';
 
 export const Auction = ({ selectedItemId, onSelectedItemIdChanged }) => {
   const setSelectedItem = (item) => onSelectedItemIdChanged(item._id);
   const clearSelectedItem = () => onSelectedItemIdChanged(null);
 
   const items = useItems();
+  const currentAuction = useCurrentAuction();
+
+  if (currentAuction.activeItemId && selectedItemId) {
+    clearSelectedItem();
+  }
+
+  const detailsItemId = currentAuction.activeItemId || selectedItemId;
+  const canSelectItem = currentAuction.activeItemId == null;
+
   return (
     <Row>
       {items.map((item) => (
         <Col md={4} key={item._id}>
-          <AuctionItem item={item} onSelectItem={setSelectedItem} />
+          <AuctionItem item={item} onSelectItem={canSelectItem ? setSelectedItem : null} />
         </Col>
       ))}
+
       <AuctionItemDetails
-        show={selectedItemId != null}
-        onHide={clearSelectedItem}
-        itemId={selectedItemId}
+        onHide={canSelectItem ? clearSelectedItem : null}
+        itemId={detailsItemId}
       />
     </Row>
   );

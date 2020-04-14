@@ -19,7 +19,9 @@ const AspectContainer = styled.div`
   }
 `;
 
-export const AuctionItemDetails = ({ show, onHide, itemId }) => {
+export const AuctionItemDetails = ({ onHide, itemId }) => {
+  const show = itemId != null;
+  const canHide = onHide != null;
   const item = useItem(itemId);
 
   if (!item) {
@@ -28,7 +30,7 @@ export const AuctionItemDetails = ({ show, onHide, itemId }) => {
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
-      <Modal.Header closeButton>
+      <Modal.Header closeButton={canHide}>
         <Modal.Title>
           {item.content.title}
           <h5>by {item.content.artist}</h5>
