@@ -3,7 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 import { Email } from 'meteor/email';
 
-import content from './content.json';
+import content from '/content.json';
 import { Bidders } from './bidders';
 
 export const Items = new Mongo.Collection('items', {

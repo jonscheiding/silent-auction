@@ -2,7 +2,7 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-import content from '../../api/content.json';
+import content from '/content.json';
 
 export const Splash = () => (
   <>

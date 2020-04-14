@@ -3,3 +3,4 @@ build/
 .envrc
 settings.deploy.json
 token.deploy.json
+content.json
