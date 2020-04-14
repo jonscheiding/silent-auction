@@ -46,7 +46,7 @@ export const AuctionItemDetails = ({ onHide, itemId }) => {
             )
             : (
               <img
-                src={item.content.imageUrl}
+                src={item.content.fullImageUrl}
                 alt={item.content.title}
                 style={{ width: '100%' }}
               />
