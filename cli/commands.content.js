@@ -18,6 +18,11 @@ const auctionMap = {
     key: 'welcomeMessage',
     transform: documentToHtmlString,
   },
+  'fields.liveMessage': {
+    key: 'liveMessage',
+    transform: documentToHtmlString,
+  },
+  'fields.liveUrl': 'liveUrl',
 };
 
 const auctionItemMap = {

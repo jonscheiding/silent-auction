@@ -3,5 +3,13 @@ body {
 }
 
 [class^="col"] > .card {
-  margin-bottom: 1rem;
+  margin-bottom: 56px;
+}
+
+main {
+  margin-top: 2rem;
+}
+
+.navbar p:last-child {
+  margin-bottom: 0;
 }
