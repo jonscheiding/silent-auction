@@ -1,6 +1,11 @@
 const yargs = require('yargs');
 
 const commands = require('./cli/commands');
+const { mongoExecute } = require('./cli/mongo');
+
+function command(fn, ...args) {
+  return mongoExecute((db) => fn.call(null, db, ...args));
+}
 
 // eslint-disable-next-line no-unused-expressions
 yargs
@@ -11,32 +16,47 @@ yargs
       .positional('start|stop', {
         describe: 'Whether to start or stop the live auction.',
       }),
-    (argv) => commands.live(argv.stop !== 'stop'),
+    (argv) => command(commands.live, argv.stop !== 'stop'),
   )
 
   .command(
-    'active <itemId>|none',
+    'order <itemIds...>',
+    'Set the order of items for the live auction.',
+    (y) => y
+      .positional('itemIds', {
+        describe: 'The IDs (in order) of the items to auction.',
+      }),
+    (argv) => command(commands.order, argv.itemIds),
+  )
+
+  .command(
+    'active <itemId>|none|next',
     'Set an item as the current active item.',
     (y) => y
-      .positional('<itemId>|none', {
-        describe: 'The item to set as active, or "none" to clear the active item.',
+      .positional('<itemId>|none|next', {
+        describe: 'The item to set as active, "next" to use the next item set by the order command, or "none" to clear the active item.',
         type: 'string',
       }),
-    (argv) => commands.active(argv.itemId.toString()),
+    (argv) => {
+      if (argv.itemId === 'next') {
+        return command(commands.next);
+      }
+      return command(commands.active, argv.itemId.toString());
+    },
   )
 
   .command(
-    'bidding <itemId> closed|open',
+    'bidding <itemId>|active closed|open',
     'Sets bidding ability for an item.',
     (y) => y
       .positional('closed|open', {
         describe: 'Whether to set bidding as closed or open for the item.',
       })
-      .positional('<itemId>', {
-        describe: 'The item to set close-of-bidding.',
+      .positional('<itemId>|active|all', {
+        describe: 'The item to set close-of-bidding, "all" to set for all items, or "active" to use the current active item.',
         type: 'string',
       }),
-    (argv) => commands.bidding(argv.itemId.toString(), argv.closed === 'closed'),
+    (argv) => command(commands.bidding, argv.itemId.toString(), argv.closed === 'closed'),
   )
 
   .demandCommand()
