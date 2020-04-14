@@ -5,11 +5,13 @@ import Col from 'react-bootstrap/Col';
 
 import { AuctionItem } from './AuctionItem';
 import { AuctionItemDetails } from './AuctionItemDetails';
+import { useItems } from '../hooks/meteor';
 
-export const Auction = ({ items, selectedItemId, onSelectedItemIdChanged }) => {
+export const Auction = ({ selectedItemId, onSelectedItemIdChanged }) => {
   const setSelectedItem = (item) => onSelectedItemIdChanged(item._id);
   const clearSelectedItem = () => onSelectedItemIdChanged(null);
 
+  const items = useItems();
   return (
     <Row>
       {items.map((item) => (
