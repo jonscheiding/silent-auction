@@ -32,7 +32,11 @@ export const AuctionItem = ({ item, onSelectItem }) => {
     } else if (lost) {
       addToast({
         variant: 'warning',
-        content: `Uh-oh, you&apos;ve been outbid on ${item.content.title}!`,
+        content: (
+          <Link to={`/items/${item._id}`}>
+            Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
+          </Link>
+        ),
       });
     }
   });

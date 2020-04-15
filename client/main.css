@@ -13,3 +13,7 @@ main {
 .navbar p:last-child {
   margin-bottom: 0;
 }
+
+.alert a, .alert a:hover, .alert a:visited, .alert a:active {
+  color: inherit;
+}
