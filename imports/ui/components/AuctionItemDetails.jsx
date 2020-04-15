@@ -4,6 +4,7 @@ import YouTube from 'react-youtube';
 import styled from 'styled-components';
 
 import { useItem } from '../hooks/meteor';
+import { AspectContainer } from './AspectContainer';
 import { BidControls } from './BidControls';
 import { HtmlContent } from './HtmlContent';
 
@@ -12,12 +13,7 @@ const ContentWrapper = styled.div`
   text-align: justify;
 `;
 
-const AspectContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 56.25%;
-
+const AspectVideo = styled(AspectContainer)`
   > div {
     width: 100%;
     height: 100%;
@@ -46,9 +42,9 @@ export const AuctionItemDetails = ({ onHide, itemId }) => {
         {
           item.content.videoId
             ? (
-              <AspectContainer>
+              <AspectVideo ratio={16 / 9}>
                 <YouTube videoId={item.content.videoId} opts={{ width: '100%', height: '100%' }} />
-              </AspectContainer>
+              </AspectVideo>
             )
             : (
               <img

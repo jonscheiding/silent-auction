@@ -8,13 +8,9 @@ import cx from 'classnames';
 import { formatCurrency } from '../../util';
 import { useHighBidderMonitor } from '../hooks/effects';
 import { useToasts } from '../hooks/toasts';
+import { AspectContainer } from './AspectContainer';
 
-const AspectImg = styled.div`
-  position: relative;
-  width: 100%;
-  height: 0;
-  padding-bottom: 50%;
-  
+const AspectImg = styled(AspectContainer)`
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
@@ -48,6 +44,7 @@ export const AuctionItem = ({ item, onSelectItem }) => {
         variant="top"
         src={item.content.previewImageUrl || item.content.fullImageUrl}
         as={AspectImg}
+        ratio={2 / 1}
       />
       <Card.Body>
         <Card.Title>{item.content.title}</Card.Title>
