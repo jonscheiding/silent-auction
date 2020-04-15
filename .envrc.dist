@@ -1,2 +1,13 @@
-export MAIL_URL='smtp://user:password@server:587'
+export MAIL_URL='smtp://username:password@host:587'
 export MAIL_FROM='me@example.com'
+
+export CONTENTFUL_AUCTION_ENTRY_ID='xxxxxxxx'
+export CONTENTFUL_SPACE_ID='xxxxxxxx'
+export CONTENTFUL_ACCESS_TOKEN='xxxxxxxx'
+
+## Use the Contentful Preview API to get draft content
+## (Make sure to also) use a preview access token
+# export CONTENTFUL_HOST='preview.contentful.com'
+
+## Override the mongo URL to connect to a cloud-hosted instance
+# export MONGO_URL='mongodb://username:password@host/db'

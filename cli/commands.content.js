@@ -49,6 +49,7 @@ const commands = {
     const client = contentful.createClient({
       accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
       space: process.env.CONTENTFUL_SPACE_ID,
+      host: process.env.CONTENTFUL_HOST,
     });
 
     console.info('Connected to Contentful; retrieving content.');
