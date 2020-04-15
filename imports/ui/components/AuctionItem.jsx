@@ -43,7 +43,7 @@ export const AuctionItem = ({ item, onSelectItem }) => {
   });
 
   return (
-    <Card>
+    <Card onClick={() => onSelectItem(item)}>
       <Card.Img
         variant="top"
         src={item.content.previewImageUrl || item.content.fullImageUrl}
