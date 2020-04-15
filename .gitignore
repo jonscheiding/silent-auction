@@ -1,5 +1,6 @@
 node_modules/
 build/
+.chrome/
 .envrc
 settings.deploy.json
 token.deploy.json
