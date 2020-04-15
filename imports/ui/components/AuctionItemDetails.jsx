@@ -5,6 +5,12 @@ import styled from 'styled-components';
 
 import { useItem } from '../hooks/meteor';
 import { BidControls } from './BidControls';
+import { HtmlContent } from './HtmlContent';
+
+const ContentWrapper = styled.div`
+  padding: 1rem;
+  text-align: justify;
+`;
 
 const AspectContainer = styled.div`
   position: relative;
@@ -52,6 +58,9 @@ export const AuctionItemDetails = ({ onHide, itemId }) => {
               />
             )
         }
+        <ContentWrapper>
+          <HtmlContent html={item.content.description} />
+        </ContentWrapper>
       </Modal.Body>
       <Modal.Footer>
         <BidControls
