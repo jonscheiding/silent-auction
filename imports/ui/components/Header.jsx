@@ -6,11 +6,13 @@ import { useCurrentAuction } from '../hooks/meteor';
 import { HtmlContent } from './HtmlContent';
 
 import content from '/content.json';
+import { positionFixed } from '../../util';
 
-Navbar.Fixed = styled.header`
+const NavbarFixed = styled.header`
   > .navbar {
-    position: fixed;
-    width: 100%;
+    
+    ${positionFixed('100%')}
+
     text-align: center;
     z-index: 100;
     justify-content: center;
@@ -27,7 +29,7 @@ export const Header = () => {
   const auction = useCurrentAuction();
 
   return (
-    <Navbar.Fixed show={auction.isLive && content.auction.liveMessage}>
+    <NavbarFixed show={auction.isLive && content.auction.liveMessage}>
       <Navbar bg="primary">
         <Navbar.Brand
           href={content.auction.liveUrl}
@@ -37,6 +39,6 @@ export const Header = () => {
           <HtmlContent html={content.auction.liveMessage} />
         </Navbar.Brand>
       </Navbar>
-    </Navbar.Fixed>
+    </NavbarFixed>
   );
 };

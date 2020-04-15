@@ -4,12 +4,14 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
 
+import { positionFixed } from '../../util';
 import { useToasts } from '../hooks/toasts';
 
 const ToastWrapper = styled.div`
-  position: fixed;
-  z-index: 200;
-  width: 100%;
+
+  ${positionFixed('100%')}
+
+  z-index: 2000;
   padding: 1rem;
 `;
 
@@ -17,7 +19,7 @@ export const Toasts = () => {
   const { toasts, removeToast } = useToasts();
 
   return (
-    <ToastWrapper>
+    <ToastWrapper className="fixed-adjust">
       <Row>
         <Col sm={{ span: 6, offset: 3 }} md={{ span: 4, offset: 8 }}>
           {

@@ -1,5 +1,13 @@
+:root {
+  --fixed-adjust: 0px;
+}
+
 body {
   font-family: sans-serif;
+}
+
+body.modal-open {
+  --fixed-adjust: 15px;
 }
 
 [class^="col"] > .card {
