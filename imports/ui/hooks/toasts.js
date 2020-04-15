@@ -8,6 +8,7 @@ import React, {
 // https://github.com/twbs/bootstrap/blob/v4.4.1/scss/_variables.scss#L261
 //
 const TOAST_ANIMATION_DURATION = 0.15 * 1000;
+const TOAST_AUTOHIDE_DELAY = 5 * 1000;
 
 const ToastsContext = createContext();
 
@@ -32,6 +33,15 @@ export const ToastsProvider = ({ children }) => {
   // This is so the animations on toasts look good.
   //
 
+  function removeToast(id) {
+    setToastShow(id, false);
+
+    setTimeout(() => {
+      setToasts(ref.current.filter((t) =>
+        t.id !== id));
+    }, TOAST_ANIMATION_DURATION);
+  }
+
   function addToast(toast) {
     const id = Random.id();
 
@@ -41,15 +51,7 @@ export const ToastsProvider = ({ children }) => {
     ]);
 
     setTimeout(() => setToastShow(id, true));
-  }
-
-  function removeToast(toast) {
-    setToastShow(toast.id, false);
-
-    setTimeout(() => {
-      setToasts(toasts.filter((t) =>
-        t.id !== toast.id));
-    }, TOAST_ANIMATION_DURATION);
+    setTimeout(() => removeToast(id), TOAST_AUTOHIDE_DELAY);
   }
 
   const context = {
@@ -58,7 +60,11 @@ export const ToastsProvider = ({ children }) => {
     removeToast,
   };
 
-  return <ToastsContext.Provider value={context}>{children}</ToastsContext.Provider>;
+  return (
+    <ToastsContext.Provider value={context}>
+      {children}
+    </ToastsContext.Provider>
+  );
 };
 
 export const useToasts = () => useContext(ToastsContext);

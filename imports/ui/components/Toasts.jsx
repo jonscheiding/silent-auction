@@ -1,5 +1,5 @@
 import React from 'react';
-import Toast from 'react-bootstrap/Toast';
+import Alert from 'react-bootstrap/Alert';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import styled from 'styled-components';
@@ -22,26 +22,21 @@ export const Toasts = () => {
         <Col sm={{ span: 6, offset: 3 }} md={{ span: 4, offset: 8 }}>
           {
             toasts.map((toast) => (
-              <Toast
+              <Alert
                 key={toast.id}
+                variant={toast.variant || 'primary'}
                 show={toast.show}
-                onClose={() => removeToast(toast)}
-                delay={5000}
-                autohide
+                onClose={() => removeToast(toast.id)}
+                dismissible
               >
-                <Toast.Header>
-                  <strong className="mr-auto">{toast.title}</strong>
-                </Toast.Header>
-                <Toast.Body>
-                  {toast.text}
-                </Toast.Body>
-              </Toast>
+                {toast.text}
+              </Alert>
             ))
           }
           <button
             type="button"
             style={{ position: 'absolute', top: 0, left: 0 }}
-            onClick={() => addToast({ title: 'A toast!', text: 'To the groom!  To the bride!' })}
+            onClick={() => addToast({ text: 'To the groom!  To the bride!' })}
           >
             Test
           </button>
