@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
+import cx from 'classnames';
 
 import { formatCurrency } from '../../util';
 import { useHighBidderMonitor } from '../hooks/effects';
@@ -23,7 +24,7 @@ const AspectImg = styled.div`
 export const AuctionItem = ({ item, onSelectItem }) => {
   const { addToast } = useToasts();
 
-  useHighBidderMonitor(item, ({ gained, lost }) => {
+  const highBidder = useHighBidderMonitor(item._id, ({ gained, lost }) => {
     if (gained) {
       addToast({
         variant: 'success',
@@ -54,7 +55,13 @@ export const AuctionItem = ({ item, onSelectItem }) => {
       </Card.Body>
       <Card.Footer>
         <Button className="float-right" onClick={() => onSelectItem(item)}>Details</Button>
-        <h3>{formatCurrency(item.currentBid.amount)}</h3>
+        <h3
+          className={cx({
+            'text-success': highBidder.current,
+            'text-warning': highBidder.previous,
+          })}
+        >{formatCurrency(item.currentBid.amount)}
+        </h3>
       </Card.Footer>
     </Card>
   );

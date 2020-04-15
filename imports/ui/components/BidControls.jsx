@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import cx from 'classnames';
 
 import { formatCurrency } from '../../util';
 import { useLocalBidderInformation } from '../hooks/meteor';
@@ -12,7 +13,9 @@ import { BidEntry } from './BidEntry';
 import { BidderLogin } from './BidderLogin';
 import { BidderIdentification } from './BidderIdentification';
 
-export const BidControls = ({ currentBid, isClosed, itemId }) => {
+export const BidControls = ({
+  currentBid, previousBids, isClosed, itemId,
+}) => {
   const initialAmount = currentBid.amount + 10;
   const [enteredAmount, setEnteredAmount] = useState(initialAmount);
 
@@ -21,6 +24,8 @@ export const BidControls = ({ currentBid, isClosed, itemId }) => {
   useEffect(() => setEnteredAmount(initialAmount), [initialAmount]);
 
   const isHighBidder = (bidder != null && bidder._id === currentBid.bidderId);
+  const isPreviousBidder = !isHighBidder
+    && (bidder != null && previousBids.find((b) => b.bidderId === bidder._id) != null);
 
   const handleSubmit = (e) => {
     Meteor.call('items.bid',
@@ -37,7 +42,11 @@ export const BidControls = ({ currentBid, isClosed, itemId }) => {
         <Row>
           <Col md={6}>
             <h5>Current Bid</h5>
-            <h3>
+            <h3 className={cx({
+              'text-success': isHighBidder,
+              'text-warning': isPreviousBidder,
+            })}
+            >
               {formatCurrency(currentBid.amount)}
             </h3>
           </Col>

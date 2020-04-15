@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { useLocalBidderInformation } from './meteor';
+import { useLocalBidderInformation, useItem } from './meteor';
 
-export const useHighBidderMonitor = (item, fn) => {
+export const useHighBidderMonitor = (itemId, fn) => {
   const bidder = useLocalBidderInformation();
+  const item = useItem(itemId);
   const [wasHighBidder, setWasHighBidder] = useState(null);
 
   useEffect(() => {
@@ -27,4 +28,13 @@ export const useHighBidderMonitor = (item, fn) => {
 
     setWasHighBidder(isHighBidder);
   }, [item.currentBid]);
+
+  const previouslyWasHighBidder = bidder
+    && !wasHighBidder
+    && item.bids.find((b) => b.bidderId === bidder._id) != null;
+
+  return {
+    current: wasHighBidder,
+    previous: !wasHighBidder && previouslyWasHighBidder,
+  };
 };

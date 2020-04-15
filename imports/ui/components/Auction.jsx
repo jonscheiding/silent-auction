@@ -24,7 +24,7 @@ export const Auction = ({ selectedItemId, onSelectedItemIdChanged }) => {
   return (
     <Row>
       {items.map((item) => (
-        <Col md={4} key={item._id}>
+        <Col md={6} lg={4} key={item._id}>
           <AuctionItem item={item} onSelectItem={canSelectItem ? setSelectedItem : null} />
         </Col>
       ))}
