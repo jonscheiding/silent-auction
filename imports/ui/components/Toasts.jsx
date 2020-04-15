@@ -14,7 +14,7 @@ const ToastWrapper = styled.div`
 `;
 
 export const Toasts = () => {
-  const { toasts, addToast, removeToast } = useToasts();
+  const { toasts, removeToast } = useToasts();
 
   return (
     <ToastWrapper>
@@ -33,13 +33,6 @@ export const Toasts = () => {
               </Alert>
             ))
           }
-          <button
-            type="button"
-            style={{ position: 'absolute', top: 0, left: 0 }}
-            onClick={() => addToast({ content: 'To the groom!  To the bride!' })}
-          >
-            Test
-          </button>
         </Col>
       </Row>
     </ToastWrapper>
