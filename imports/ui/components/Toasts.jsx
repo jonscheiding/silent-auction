@@ -29,14 +29,14 @@ export const Toasts = () => {
                 onClose={() => removeToast(toast.id)}
                 dismissible
               >
-                {toast.text}
+                {toast.content}
               </Alert>
             ))
           }
           <button
             type="button"
             style={{ position: 'absolute', top: 0, left: 0 }}
-            onClick={() => addToast({ text: 'To the groom!  To the bride!' })}
+            onClick={() => addToast({ content: 'To the groom!  To the bride!' })}
           >
             Test
           </button>

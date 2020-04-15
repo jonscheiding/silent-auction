@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 
 import { useToasts } from '../hooks/toasts';
 
@@ -10,7 +10,7 @@ export const Validate = ({ validationCode, onValidated }) => {
   Meteor.call('bidders.validate', validationCode);
 
   addToast({
-    text: 'Thanks for validating your e-mail address!  Happy bidding!',
+    content: 'Thanks for validating your e-mail address!  Happy bidding!',
   });
 
   onValidated();
