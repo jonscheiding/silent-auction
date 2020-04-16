@@ -53,7 +53,7 @@ Meteor.methods({
     Items.update({ _id: item._id }, {
       $push: {
         bids: {
-          $each: [{ bidderId, amount }],
+          $each: [{ bidderId, amount, date: new Date() }],
           $position: 0,
         },
       },
