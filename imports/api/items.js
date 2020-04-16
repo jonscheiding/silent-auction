@@ -11,8 +11,7 @@ export const Items = new Mongo.Collection('items', {
   transform: (item) => {
     const itemContent = content.items.find((i) => i.reference === item.reference);
 
-    const sortedBids = [...item.bids].sort((a, b) => b.amount - a.amount);
-    const currentBid = sortedBids[0] || { amount: 0 };
+    const currentBid = item.bids[0] || { amount: 0 };
 
     return {
       ...item,
@@ -52,7 +51,12 @@ Meteor.methods({
     const previousBidderId = item.currentBid.bidderId;
 
     Items.update({ _id: item._id }, {
-      $push: { bids: { bidderId, amount } },
+      $push: {
+        bids: {
+          $each: [{ bidderId, amount }],
+          $position: 0,
+        },
+      },
     });
 
     if (Meteor.isServer) {
