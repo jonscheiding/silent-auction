@@ -5,6 +5,7 @@ import { Email } from 'meteor/email';
 
 import content from '/content.json';
 import { Bidders } from './bidders';
+import { bidderStatus } from '../util';
 
 export const Items = new Mongo.Collection('items', {
   transform: (item) => {
@@ -38,8 +39,10 @@ Meteor.methods({
       throw new Meteor.Error(`Bidder '${bidderId}' does not exist.`);
     }
 
-    if (item.currentBid.bidderId === bidderId) {
-      throw new Meteor.Error(`Bidder '${bidderId}' is already the current bidder on item '${itemId}'.`);
+    const status = bidderStatus(item, bidder);
+
+    if (!status.canBid) {
+      throw new Meteor.Error(`Bidder '${bidderId}' cannot bid on item '${itemId}': ${status.cannotBidReason}`);
     }
 
     if (item.currentBid.amount >= amount) {
