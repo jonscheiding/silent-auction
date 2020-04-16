@@ -19,19 +19,14 @@ export const useBidderInformation = (emailAddress) => useTracker(() => {
 });
 
 export const useLocalBidderInformation = () => {
-  const [localBidderEmail] = useLocalBidderEmail();
-  return useBidderInformation(localBidderEmail);
+  const [emailAddress] = useLocalBidderEmail();
+  return useBidderInformation(emailAddress) || { emailAddress };
 };
 
 export const useItems = () => useTracker(() => {
   Meteor.subscribe('items');
 
   return Items.find({}).fetch()
-    .map((item) => ({
-      content: item.content,
-      currentBid: item.currentBid,
-      _id: item._id,
-    }))
     .filter((item) => item.content != null);
 });
 

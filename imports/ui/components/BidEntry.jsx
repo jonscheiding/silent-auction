@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 
-export const BidEntry = ({ currentAmount, enteredAmount, onEnteredAmountChange }) => {
-  const minimumAmount = currentAmount + 1;
+export const BidEntry = ({
+  minimumAmount, initialAmount, enteredAmount, onEnteredAmountChange,
+}) => {
+  const [isFocused, setIsFocused] = useState(false);
+
+  const handleEnteredAmountFocus = () => setIsFocused(true);
 
   const handleEnteredAmountChange = (e) => onEnteredAmountChange(Number(e.target.value));
-  const handleEnteredAmountBlur = (e) => onEnteredAmountChange(Number(e.target.value).toFixed(0));
+
+  const handleEnteredAmountBlur = (e) => {
+    onEnteredAmountChange(Number(e.target.value).toFixed(0));
+    setIsFocused(false);
+  };
+
+  useEffect(() => {
+    if (isFocused) { return; }
+    onEnteredAmountChange(initialAmount);
+  }, [initialAmount]);
 
   return (
-    <>
+    <Form.Group>
       <Form.Label as="h5">Your Bid</Form.Label>
       <h3>
         <InputGroup>
@@ -20,6 +33,7 @@ export const BidEntry = ({ currentAmount, enteredAmount, onEnteredAmountChange }
             type="number"
             value={enteredAmount}
             onChange={handleEnteredAmountChange}
+            onFocus={handleEnteredAmountFocus}
             onBlur={handleEnteredAmountBlur}
             min={minimumAmount}
             step={1}
@@ -31,6 +45,6 @@ export const BidEntry = ({ currentAmount, enteredAmount, onEnteredAmountChange }
           </InputGroup.Append>
         </InputGroup>
       </h3>
-    </>
+    </Form.Group>
   );
 };

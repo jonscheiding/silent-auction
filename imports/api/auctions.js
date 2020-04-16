@@ -1,7 +1,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 
-export const Auctions = new Mongo.Collection('auctions');
+import content from '/content.json';
+
+export const Auctions = new Mongo.Collection('auctions', {
+  transform: (auction) => ({
+    ...auction,
+    content: content.auction,
+  }),
+});
 
 if (Meteor.isServer) {
   Meteor.publish('auctions', () => Auctions.find({}));

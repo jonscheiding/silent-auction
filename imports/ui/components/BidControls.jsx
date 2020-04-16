@@ -1,142 +1,92 @@
-import { Meteor } from 'meteor/meteor';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import cx from 'classnames';
+import Form from 'react-bootstrap/Form';
+import styled from 'styled-components';
 
-import { formatCurrency } from '../../util';
-import { useLocalBidderInformation } from '../hooks/meteor';
+import { CANNOT_BID_REASON } from '../../util';
+import { BidAmount } from './BidAmount';
 import { BidEntry } from './BidEntry';
-import { BidderLogin } from './BidderLogin';
 import { BidderIdentification } from './BidderIdentification';
 
-export const BidControls = ({
-  currentBid, previousBids, isClosed, itemId,
-}) => {
-  const initialAmount = currentBid.amount + 10;
+const BidEntryRow = styled(Row)`
+  [class^=col] {
+    margin-bottom: 0.5rem;
+  }
+`;
+
+export const BidControls = ({ currentAmount, status, onBid }) => {
+  const minimumAmount = currentAmount + 1;
+  const initialAmount = currentAmount + 10;
   const [enteredAmount, setEnteredAmount] = useState(initialAmount);
 
-  const bidder = useLocalBidderInformation();
-
-  useEffect(() => setEnteredAmount(initialAmount), [initialAmount]);
-
-  const isHighBidder = (bidder != null && bidder._id === currentBid.bidderId);
-  const isPreviousBidder = !isHighBidder
-    && (bidder != null && previousBids.find((b) => b.bidderId === bidder._id) != null);
-
   const handleSubmit = (e) => {
-    Meteor.call('items.bid',
-      itemId,
-      bidder._id,
-      Number(enteredAmount));
-
+    onBid(Number(enteredAmount));
     e.preventDefault();
   };
 
   return (
     <Container className="text-center">
       <Form onSubmit={handleSubmit}>
-        <Row>
-          <Col md={6}>
+        <BidEntryRow className="justify-content-center">
+          <Col md={6} lg={5}>
             <h5>Current Bid</h5>
-            <h3 className={cx({
-              'text-success': isHighBidder,
-              'text-warning': isPreviousBidder,
-            })}
-            >
-              {formatCurrency(currentBid.amount)}
-            </h3>
+            <BidAmount
+              amount={currentAmount}
+              status={status}
+            />
           </Col>
-          <Col md={6}>
-            <BidEntryWrapper bidder={bidder} isClosed={isClosed} isHighBidder={isHighBidder}>
+          <Col md={6} lg={5}>
+            <BidControls.BidEntry status={status}>
               <BidEntry
-                currentAmount={currentBid.amount}
+                minimumAmount={minimumAmount}
+                initialAmount={initialAmount}
                 enteredAmount={enteredAmount}
-                onEnteredAmountChange={setEnteredAmount}
-                isHighBidder={isHighBidder}
+                onEnteredAmountChange={(value) => setEnteredAmount(value)}
               />
-            </BidEntryWrapper>
+            </BidControls.BidEntry>
           </Col>
-        </Row>
-        <Row>
-          <Col>
-            <BidSubmitWrapper bidder={bidder} isClosed={isClosed} isHighBidder={isHighBidder}>
-              <Button type="submit">Bid</Button>
-            </BidSubmitWrapper>
+          <Col lg={2} style={{ display: 'flex', alignItems: 'center' }}>
+            <Button disabled={!status.canBid} type="submit" size="lg" style={{ width: '100%' }}>
+              Bid
+            </Button>
           </Col>
-        </Row>
+        </BidEntryRow>
       </Form>
       <Row>
         <Col>
-          <BidderLoginWrapper bidder={bidder}>
-            <BidderLogin />
-          </BidderLoginWrapper>
+          <BidderIdentification />
         </Col>
       </Row>
     </Container>
   );
 };
 
-const BidSubmitWrapper = ({
-  bidder, isHighBidder, isClosed, children,
-}) => {
-  if (!bidder || isClosed) {
-    return null;
+
+BidControls.BidEntry = ({ status, children }) => {
+  switch (status.cannotBidReason) {
+    case CANNOT_BID_REASON.ALREADY_WINNING:
+      return <h5>You are currently the highest bidder. Congratulations!</h5>;
+    case CANNOT_BID_REASON.ITEM_CLOSED:
+      return <h3>Bidding for this item is closed.</h3>;
+    case CANNOT_BID_REASON.NOT_VALIDATED:
+      return (
+        <p>
+          We sent you a a link to validate your e-mail address.
+          Please click it to start bidding.<br />
+        </p>
+      );
+    case CANNOT_BID_REASON.NOT_LOGGED_IN:
+      return (
+        <p>
+          In order to bid, please enter your e-mail address.
+          We&apos;ll use this to contact you
+          for payment and delivery arrangements if you win something!
+        </p>
+      );
+    case null: return children;
+    default: return null;
   }
-
-  return (
-    <>
-      <BidderIdentification />
-      {bidder.isValidated && !isHighBidder ? children : null}
-    </>
-  );
-};
-
-const BidEntryWrapper = ({
-  bidder, isHighBidder, isClosed, children,
-}) => {
-  const handleResendClick = () => {
-    Meteor.call('bidders.resendValidation', bidder._id);
-  };
-
-  if (isClosed) {
-    return <h3>Bidding is closed for this item.</h3>;
-  }
-
-  if (!bidder) {
-    return (
-      <p>
-        In order to bid, please enter your e-mail address below.
-        We&apos;ll use this to contact you
-        for payment and delivery arrangements if you win something!
-      </p>
-    );
-  }
-
-  if (!bidder.isValidated) {
-    return (
-      <p>
-        We sent you a a link to validate your e-mail address.
-        Please click it to start bidding.<br />
-        <Button variant="link" onClick={handleResendClick}>Click here to get it re-sent.</Button>
-      </p>
-    );
-  }
-
-  if (isHighBidder) {
-    return <h5>You are currently <br /> the highest bidder!</h5>;
-  }
-
-  return children;
-};
-
-const BidderLoginWrapper = ({ bidder, children }) => {
-  if (bidder) {
-    return null;
-  }
-
-  return children;
 };

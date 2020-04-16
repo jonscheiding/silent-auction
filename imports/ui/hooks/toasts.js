@@ -45,13 +45,19 @@ export const ToastsProvider = ({ children }) => {
   function addToast(toast) {
     const id = Random.id();
 
-    setToasts([
-      ...ref.current,
-      { ...toast, id, show: false },
-    ]);
+    //
+    // Wait for the next tick
+    // to avoid "Cannot update a component while rendering a different component" errors
+    //
+    setTimeout(() => {
+      setToasts([
+        ...ref.current,
+        { ...toast, id, show: false },
+      ]);
 
-    setTimeout(() => setToastShow(id, true));
-    setTimeout(() => removeToast(id), TOAST_AUTOHIDE_DELAY);
+      setTimeout(() => setToastShow(id, true));
+      setTimeout(() => removeToast(id), TOAST_AUTOHIDE_DELAY);
+    });
   }
 
   const context = {

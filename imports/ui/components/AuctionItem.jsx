@@ -1,14 +1,15 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import cx from 'classnames';
 
-import { formatCurrency } from '../../util';
+import { bidderStatus } from '../../util';
 import { useHighBidderMonitor } from '../hooks/effects';
 import { useToasts } from '../hooks/toasts';
-import { AspectContainer } from './AspectContainer';
+import { AspectContainer } from './util/AspectContainer';
+import { BidAmount } from './BidAmount';
+import { ItemDetails } from './ItemDetails';
 
 const AspectImg = styled(AspectContainer)`
   background-repeat: no-repeat;
@@ -17,10 +18,13 @@ const AspectImg = styled(AspectContainer)`
   background-image: url(${(props) => props.src});
 `;
 
-export const AuctionItem = ({ item, onSelectItem }) => {
+export const AuctionItem = ({
+  item, bidder, selected, onSelect, onDeselect,
+}) => {
+  const status = bidderStatus(item, bidder);
   const { addToast } = useToasts();
 
-  const highBidder = useHighBidderMonitor(item._id, ({ gained, lost }) => {
+  useHighBidderMonitor(item._id, ({ gained, lost }) => {
     if (gained) {
       addToast({
         variant: 'success',
@@ -30,36 +34,46 @@ export const AuctionItem = ({ item, onSelectItem }) => {
       addToast({
         variant: 'warning',
         content: (
-          <Link to={`/items/${item._id}`}>
+          <Button variant="link" onClick={onSelect}>
             Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
-          </Link>
+          </Button>
         ),
       });
     }
   });
 
+  const onBid = (amount) => {
+    Meteor.call('items.bid',
+      item._id,
+      bidder._id,
+      amount);
+  };
+
   return (
-    <Card onClick={() => onSelectItem(item)}>
-      <Card.Img
-        variant="top"
-        src={item.content.previewImageUrl || item.content.fullImageUrl}
-        as={AspectImg}
-        ratio={2 / 1}
+    <>
+      <ItemDetails
+        item={item}
+        status={status}
+        show={selected}
+        onHide={onDeselect}
+        onBid={onBid}
       />
-      <Card.Body>
-        <Card.Title>{item.content.title}</Card.Title>
-        <Card.Subtitle>{item.content.artist}</Card.Subtitle>
-      </Card.Body>
-      <Card.Footer>
-        <Button className="float-right" onClick={() => onSelectItem(item)}>Details</Button>
-        <h3
-          className={cx({
-            'text-success': highBidder.current,
-            'text-warning': highBidder.previous,
-          })}
-        >{formatCurrency(item.currentBid.amount)}
-        </h3>
-      </Card.Footer>
-    </Card>
+      <Card onClick={onSelect}>
+        <Card.Img
+          variant="top"
+          src={item.content.previewImageUrl || item.content.fullImageUrl}
+          as={AspectImg}
+          ratio={2 / 1}
+        />
+        <Card.Body>
+          <Card.Title>{item.content.title}</Card.Title>
+          <Card.Subtitle>{item.content.artist}</Card.Subtitle>
+        </Card.Body>
+        <Card.Footer>
+          <Button className="float-right" onClick={onSelect}>Details</Button>
+          <BidAmount amount={item.currentBid.amount} status={status} />
+        </Card.Footer>
+      </Card>
+    </>
   );
 };

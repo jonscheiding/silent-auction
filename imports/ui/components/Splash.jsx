@@ -2,18 +2,25 @@ import React from 'react';
 import { Helmet } from 'react-helmet';
 import Jumbotron from 'react-bootstrap/Jumbotron';
 
-import { HtmlContent } from './HtmlContent';
+import { HtmlContent } from './util/HtmlContent';
+import { useCurrentAuction } from '../hooks/meteor';
 
-import content from '/content.json';
+export const Splash = () => {
+  const auction = useCurrentAuction();
 
-export const Splash = () => (
-  <>
-    <Helmet>
-      <title>{content.auction.title}</title>
-    </Helmet>
-    <Jumbotron>
-      <h4>Welcome to {content.auction.title}</h4>
-      <HtmlContent html={content.auction.welcomeMessage} />
-    </Jumbotron>
-  </>
-);
+  if (auction._id == null) {
+    return null;
+  }
+
+  return (
+    <>
+      <Helmet>
+        <title>{auction.content.title}</title>
+      </Helmet>
+      <Jumbotron>
+        <h4>Welcome to {auction.content.title}</h4>
+        <HtmlContent html={auction.content.welcomeMessage} />
+      </Jumbotron>
+    </>
+  );
+};

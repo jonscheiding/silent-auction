@@ -8,7 +8,6 @@ import { positionFixed } from '../../util';
 import { useToasts } from '../hooks/toasts';
 
 const ToastWrapper = styled.div`
-
   ${positionFixed('100%')}
 
   z-index: 2000;
