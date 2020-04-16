@@ -12,10 +12,18 @@ const ToastWrapper = styled.div`
 
   z-index: 2000;
   padding: 1rem;
+
+  pointer-events: none;
+  
+  .alert { pointer-events: auto; }
 `;
 
 export const Toasts = () => {
   const { toasts, removeToast } = useToasts();
+
+  if (toasts.length === 0) {
+    return null;
+  }
 
   return (
     <ToastWrapper className="fixed-adjust">
