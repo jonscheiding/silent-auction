@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
