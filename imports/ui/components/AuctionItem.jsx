@@ -46,24 +46,6 @@ export const AuctionItem = ({
     }
   });
 
-  // useHighBidderMonitor(item._id, ({ gained, lost }) => {
-  //   if (gained) {
-  //     addToast({
-  //       variant: 'success',
-  //       content: `Thanks for your bid on ${item.content.title}!`,
-  //     });
-  //   } else if (lost) {
-  //     addToast({
-  //       variant: 'warning',
-  //       content: (
-  //         <Button variant="link" onClick={onSelect}>
-  //           Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
-  //         </Button>
-  //       ),
-  //     });
-  //   }
-  // });
-
   const onBid = (amount) => {
     Meteor.call('items.bid',
       item._id,
