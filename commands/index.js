@@ -1,10 +1,12 @@
-const auction = require('./auction');
+const auctions = require('./auctions');
+const items = require('./items');
 const content = require('./content');
 const { mongoExecute } = require('./mongo');
 
 module.exports = {
   commands: {
-    ...auction,
+    ...auctions,
+    ...items,
     ...content,
   },
 
