@@ -7,7 +7,7 @@ before_install:
 
 script:
 - meteor npm install
-- npm run cli update-content -- --verbose
+- npm run cli update-content --
 - meteor npm run lint
 - meteor test --once --driver-package meteortesting:mocha
 
