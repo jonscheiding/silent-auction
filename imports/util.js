@@ -10,7 +10,7 @@ export const formatCurrency = (amount) => currencyFormat.format(amount);
 
 export const positionFixed = (width) => css`
     position: fixed;
-    width: calc(${width} - var(--fixed-adjust));
+    width: ${width};
 `;
 
 export const CANNOT_BID_REASON = {

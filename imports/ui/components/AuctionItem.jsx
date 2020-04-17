@@ -5,8 +5,8 @@ import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
 import { bidderStatus } from '../../util';
-import { useHighBidderMonitor } from '../hooks/effects';
 import { useToasts } from '../hooks/toasts';
+import { useBidNotifications } from '../hooks/meteor';
 import { AspectContainer } from './util/AspectContainer';
 import { BidAmount } from './BidAmount';
 import { ItemDetails } from './ItemDetails';
@@ -24,23 +24,45 @@ export const AuctionItem = ({
   const status = bidderStatus(item, bidder);
   const { addToast } = useToasts();
 
-  useHighBidderMonitor(item._id, ({ gained, lost }) => {
-    if (gained) {
-      addToast({
-        variant: 'success',
-        content: `Thanks for your bid on ${item.content.title}!`,
-      });
-    } else if (lost) {
-      addToast({
-        variant: 'warning',
-        content: (
-          <Button variant="link" onClick={onSelect}>
-            Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
-          </Button>
-        ),
-      });
+  useBidNotifications(bidder._id, item._id, (notification) => {
+    switch (notification.type) {
+      case 'bid':
+        addToast({
+          variant: 'success',
+          content: `Thanks for your bid on ${item.content.title}!`,
+        });
+        break;
+      case 'outbid':
+        addToast({
+          variant: 'warning',
+          content: (
+            <Button variant="link" onClick={onSelect}>
+              Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
+            </Button>
+          ),
+        });
+        break;
+      default: break;
     }
   });
+
+  // useHighBidderMonitor(item._id, ({ gained, lost }) => {
+  //   if (gained) {
+  //     addToast({
+  //       variant: 'success',
+  //       content: `Thanks for your bid on ${item.content.title}!`,
+  //     });
+  //   } else if (lost) {
+  //     addToast({
+  //       variant: 'warning',
+  //       content: (
+  //         <Button variant="link" onClick={onSelect}>
+  //           Uh-oh, you&apos;ve been outbid on {item.content.title}. Click here to get it back!
+  //         </Button>
+  //       ),
+  //     });
+  //   }
+  // });
 
   const onBid = (amount) => {
     Meteor.call('items.bid',

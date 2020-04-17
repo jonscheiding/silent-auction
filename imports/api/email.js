@@ -6,7 +6,9 @@ import ReactDOMServer from 'react-dom/server';
 import Templates from './templates/EmailTemplates';
 import content from '/content.json';
 
-Email.sendWithTemplate = ({ templateName, to, data }) => {
+export const sendTemplateEmail = ({ templateName, to, data }) => {
+  if (!Meteor.isServer) { return; }
+
   const Template = Templates[templateName];
   const auctionTitle = content.auction.title;
 

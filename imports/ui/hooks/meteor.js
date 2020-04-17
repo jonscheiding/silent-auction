@@ -1,10 +1,12 @@
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 
+import { useEffect } from 'react';
 import { Bidders } from '../../api/bidders';
 import { Items } from '../../api/items';
 import { Auctions } from '../../api/auctions';
 import { useLocalBidderEmail } from './localStorage';
+import { Notifications } from '../../api/notifications';
 
 export const useCurrentAuction = () => useTracker(() => {
   Meteor.subscribe('auctions');
@@ -35,3 +37,21 @@ export const useItem = (id) => useTracker(() => {
 
   return Items.findOne({ _id: id });
 });
+
+
+export const useBidNotifications = (bidderId, itemId, fn) => {
+  useEffect(() => {
+    const subscription = Meteor.subscribe('notifications', bidderId, itemId);
+    const observer = Notifications.find({ bidderId, itemId }).observeChanges({
+      added: (id, fields) => {
+        if (!subscription.ready()) { return; }
+        fn({ ...fields, _id: id });
+      },
+    });
+
+    return () => {
+      observer.stop();
+      subscription.stop();
+    };
+  }, [bidderId]);
+};

@@ -1,8 +1,9 @@
 import { Meteor } from 'meteor/meteor';
-import { Email } from 'meteor/email';
 import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
+
+import { sendTemplateEmail } from './email';
 
 export const Bidders = new Mongo.Collection('bidders');
 
@@ -32,7 +33,7 @@ Meteor.methods({
     });
 
     if (Meteor.isServer) {
-      Email.sendWithTemplate({
+      sendTemplateEmail({
         templateName: 'ValidationEmail',
         to: emailAddress,
         data: { validationCode },
@@ -60,7 +61,7 @@ Meteor.methods({
 
     const bidder = Bidders.findOne({ _id: bidderId });
 
-    Email.sendWithTemplate({
+    sendTemplateEmail({
       templateName: 'ValidationEmail',
       to: bidder.emailAddress,
       data: { validationCode: bidder.validationCode },
