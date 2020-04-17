@@ -71,6 +71,10 @@ BidControls.BidEntry = ({ status, children }) => {
       return <h5>You are currently the highest bidder. Congratulations!</h5>;
     case CANNOT_BID_REASON.ITEM_CLOSED:
       return <h3>Bidding for this item is closed.</h3>;
+    case CANNOT_BID_REASON.AUCTION_NOT_STARTED:
+      return <h3>The auction has not started yet.</h3>;
+    case CANNOT_BID_REASON.AUCTION_ENDED:
+      return <h3>The auction has ended.</h3>;
     case CANNOT_BID_REASON.NOT_VALIDATED:
       return (
         <p>

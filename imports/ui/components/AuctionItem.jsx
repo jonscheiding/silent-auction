@@ -19,9 +19,9 @@ const AspectImg = styled(AspectContainer)`
 `;
 
 export const AuctionItem = ({
-  item, bidder, selected, onSelect, onDeselect,
+  item, bidder, auction, selected, onSelect, onDeselect,
 }) => {
-  const status = bidderStatus(item, bidder);
+  const status = bidderStatus(item, bidder, auction);
   const { addToast } = useToasts();
 
   useBidNotifications(bidder._id, item._id, (notification) => {
