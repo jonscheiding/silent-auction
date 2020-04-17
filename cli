@@ -1,7 +1,8 @@
+#!node
+
 const yargs = require('yargs');
 
-const commands = require('./cli/commands');
-const { mongoExecute } = require('./cli/mongo');
+const { commands, mongoExecute } = require('./commands');
 
 function command(fn, ...args) {
   return mongoExecute((db) => fn.call(null, db, ...args));
@@ -60,13 +61,13 @@ yargs
   )
 
   .command(
-    'update-content',
+    'refresh-content',
     'Downloads updated content from Contentful for auction.',
     (y) => y
       .option('verbose', {
         describe: 'Output the retrieved content JSON to the console.',
       }),
-    commands.updateContent,
+    commands.refreshContent,
   )
 
   .demandCommand()
