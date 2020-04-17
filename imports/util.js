@@ -28,6 +28,8 @@ export const bidderStatus = (item, bidder, auction) => {
   const isInterested = !isWinning
   && item.bids.find((b) => b.bidderId === bidder._id) != null;
 
+  const isSold = item.currentBid.amount > 0 && (item.isClosed || auction.isEnded);
+
   let cannotBidReason = null;
   if (!auction.isStarted) {
     cannotBidReason = CANNOT_BID_REASON.AUCTION_NOT_STARTED;
@@ -47,6 +49,8 @@ export const bidderStatus = (item, bidder, auction) => {
     isLoggedIn,
     isWinning,
     isInterested,
+    isSold,
+    isClosed: item.isClosed || auction.isEnded,
     canBid: cannotBidReason === null,
     cannotBidReason,
   };
