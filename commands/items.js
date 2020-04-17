@@ -1,10 +1,6 @@
 /* eslint-disable no-console */
 
 const commands = {
-  live: (db, isLive) => db
-    .collection('auctions')
-    .updateOne({}, { $set: { isLive } }),
-
   order: (db, itemIds) => db
     .collection('auctions')
     .updateOne({}, { $set: { orderedItemIds: itemIds } }),

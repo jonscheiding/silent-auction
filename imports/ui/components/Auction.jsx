@@ -4,7 +4,7 @@ import Col from 'react-bootstrap/Col';
 import { AuctionItem } from './AuctionItem';
 
 export const Auction = ({
-  items, bidder, selectedItemId, onSelectItem, onDeselectItem,
+  items, bidder, auction, selectedItemId, onSelectItem, onDeselectItem,
 }) => (
   <Row>
     {items.map((item) => (
@@ -12,6 +12,7 @@ export const Auction = ({
         <AuctionItem
           item={item}
           bidder={bidder}
+          auction={auction}
           selected={item._id === selectedItemId}
           onSelect={() => onSelectItem(item)}
           onDeselect={() => onDeselectItem(item)}

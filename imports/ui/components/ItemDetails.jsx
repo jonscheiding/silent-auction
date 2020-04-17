@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
+import Alert from 'react-bootstrap/Alert';
 import YouTube from 'react-youtube';
 import styled from 'styled-components';
 
@@ -14,6 +15,25 @@ const AspectVideo = styled(AspectContainer)`
   }
 `;
 
+const HeaderAlert = styled(Alert)`
+  position: absolute;
+  right: 3rem;
+  top: 1.5rem;
+`;
+
+const ClosedAlert = ({ isClosed, isSold }) => {
+  if (!isClosed) { return null; }
+
+  return (
+    <HeaderAlert
+      className="d-none d-sm-block"
+      variant={isSold ? 'success' : 'secondary'}
+    >
+      {isSold ? 'SOLD' : 'CLOSED'}
+    </HeaderAlert>
+  );
+};
+
 export const ItemDetails = ({
   item, status, show, onHide, onBid,
 }) => {
@@ -22,6 +42,7 @@ export const ItemDetails = ({
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <Modal.Header closeButton={canHide}>
+        <ClosedAlert isClosed={status.isClosed} isSold={status.isSold} />
         <Modal.Title>
           {item.content.title}
           <h5>by {item.content.artist}</h5>

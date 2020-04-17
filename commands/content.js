@@ -18,6 +18,14 @@ const auctionMap = {
     key: 'welcomeMessage',
     transform: documentToHtmlString,
   },
+  'fields.notStartedMessage': {
+    key: 'notStartedMessage',
+    transform: documentToHtmlString,
+  },
+  'fields.endedMessage': {
+    key: 'endedMessage',
+    transform: documentToHtmlString,
+  },
   'fields.liveMessage': {
     key: 'liveMessage',
     transform: documentToHtmlString,

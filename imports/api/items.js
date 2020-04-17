@@ -3,6 +3,7 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 
 import content from '/content.json';
+import { Auctions } from './auctions';
 import { Bidders } from './bidders';
 import { Notifications } from './notifications';
 import { bidderStatus } from '../util';
@@ -29,6 +30,7 @@ Meteor.methods({
 
     const item = Items.findOne({ _id: itemId });
     const bidder = Bidders.findOne({ _id: bidderId });
+    const auction = Auctions.findOne({});
 
     if (!item) {
       throw new Meteor.Error(`Item '${itemId}' does not exist.`);
@@ -38,7 +40,7 @@ Meteor.methods({
       throw new Meteor.Error(`Bidder '${bidderId}' does not exist.`);
     }
 
-    const status = bidderStatus(item, bidder);
+    const status = bidderStatus(item, bidder, auction);
 
     if (!status.canBid) {
       throw new Meteor.Error(`Bidder '${bidderId}' cannot bid on item '${itemId}': ${status.cannotBidReason}`);

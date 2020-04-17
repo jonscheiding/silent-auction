@@ -11,13 +11,14 @@ function command(fn, ...args) {
 // eslint-disable-next-line no-unused-expressions
 yargs
   .command(
-    'live start|stop',
-    'Control the live auction.',
+    'auction <status>',
+    'Control the status of the auction.',
     (y) => y
-      .positional('start|stop', {
-        describe: 'Whether to start or stop the live auction.',
+      .positional('status', {
+        choices: ['preview', 'started', 'live', 'ended'],
+        description: 'The bidding and live status of the auction.',
       }),
-    (argv) => command(commands.live, argv.stop !== 'stop'),
+    (argv) => command(commands.auction, argv.status),
   )
 
   .command(

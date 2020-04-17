@@ -1,11 +1,10 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 import { useCurrentAuction } from '../hooks/meteor';
 import { HtmlContent } from './util/HtmlContent';
 
-import content from '/content.json';
 import { positionFixed } from '../../util';
 
 const NavbarFixed = styled.div`
@@ -19,24 +18,51 @@ const NavbarFixed = styled.div`
   }
 
   padding-bottom: 56px;
-
-  ${(props) => (props.show ? null : css`
-    display: none;
-  `)}
 `;
+
+function auctionStatus(auction) {
+  if (auction.content == null) { return null; }
+
+  if (!auction.isStarted) {
+    return {
+      message: auction.content.notStartedMessage || 'The auction has not started yet!',
+      bg: 'warning',
+    };
+  }
+
+  if (auction.isEnded) {
+    return {
+      message: auction.content.endedMessage || 'The auction has ended!',
+      bg: 'warning',
+    };
+  }
+
+  if (auction.isLive && (auction.content.liveMessage || auction.content.liveUrl)) {
+    return {
+      message: auction.content.liveMessage || 'Click to join the live event!',
+      url: auction.content.liveUrl,
+      bg: 'primary',
+    };
+  }
+
+  return null;
+}
 
 export const Banner = () => {
   const auction = useCurrentAuction();
+  const status = auctionStatus(auction);
+
+  if (status == null) { return null; }
 
   return (
-    <NavbarFixed show={auction.isLive && content.auction.liveMessage}>
-      <Navbar bg="primary">
+    <NavbarFixed>
+      <Navbar bg={status.bg}>
         <Navbar.Brand
-          href={content.auction.liveUrl}
+          href={status.url}
           target="_blank"
           rel="noopener noreferrer"
         >
-          <HtmlContent html={content.auction.liveMessage} />
+          <HtmlContent html={status.message} />
         </Navbar.Brand>
       </Navbar>
     </NavbarFixed>

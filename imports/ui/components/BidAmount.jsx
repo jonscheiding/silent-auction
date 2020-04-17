@@ -7,7 +7,7 @@ export const BidAmount = ({ amount, status }) => (
   <h3
     className={cx({
       'text-success': status.isWinning,
-      'text-warning': status.isInterested,
+      'text-warning': status.isInterested && !status.isSold,
     })}
   >
     {formatCurrency(amount)}
