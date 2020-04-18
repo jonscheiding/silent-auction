@@ -66,5 +66,10 @@ Meteor.methods({
       to: bidder.emailAddress,
       data: { validationCode: bidder.validationCode },
     });
+
+    Bidders.update(
+      { _id: bidderId },
+      { $set: { validationResendCount: (bidder.validationResendCount || 0) + 1 } },
+    );
   },
 });

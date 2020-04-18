@@ -26,6 +26,10 @@ const auctionMap = {
     key: 'endedMessage',
     transform: documentToHtmlString,
   },
+  'fields.validationHelpMessage': {
+    key: 'validationHelpMessage',
+    transform: documentToHtmlString,
+  },
   'fields.liveMessage': {
     key: 'liveMessage',
     transform: documentToHtmlString,

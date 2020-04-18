@@ -10,6 +10,7 @@ import { CANNOT_BID_REASON } from '../../util';
 import { BidAmount } from './BidAmount';
 import { BidEntry } from './BidEntry';
 import { BidderIdentification } from './BidderIdentification';
+import { ResendValidationLink } from './ResendValidationLink';
 
 const BidEntryRow = styled(Row)`
   [class^=col] {
@@ -78,8 +79,9 @@ BidControls.BidEntry = ({ status, children }) => {
     case CANNOT_BID_REASON.NOT_VALIDATED:
       return (
         <p>
-          We sent you a a link to validate your e-mail address.
+          We sent you a a link to validate your e-mail address.&nbsp;
           Please click it to start bidding.<br />
+          <ResendValidationLink>Click here to re-send it.</ResendValidationLink>
         </p>
       );
     case CANNOT_BID_REASON.NOT_LOGGED_IN:

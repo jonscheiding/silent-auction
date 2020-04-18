@@ -6,6 +6,7 @@ import { ToastsProvider } from './hooks/toasts';
 import { Layout } from './components/Layout';
 import { RoutedAuction } from './components/RoutedAuction';
 import { RoutedValidate } from './components/RoutedValidate';
+import { RoutedValidateHelp } from './components/RoutedValidateHelp';
 
 const history = createBrowserHistory();
 
@@ -14,6 +15,9 @@ export const App = () => (
     <Router history={history}>
       <Layout>
         <Switch>
+          <Route path="/validate/help">
+            <RoutedValidateHelp />
+          </Route>
           <Route path="/validate/:validationCode">
             <RoutedValidate />
           </Route>
