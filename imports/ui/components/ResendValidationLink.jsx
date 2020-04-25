@@ -25,6 +25,10 @@ export const ResendValidationLink = ({ children }) => {
           </Button>
         ),
       });
+    } else {
+      addToast({
+        content: 'We\'re sending you another validation email!',
+      });
     }
   };
 

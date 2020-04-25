@@ -34,6 +34,18 @@ const auctionMap = {
     key: 'liveMessage',
     transform: documentToHtmlString,
   },
+  'fields.bidReceivedEmail': {
+    key: 'bidReceivedEmail',
+    transform: documentToHtmlString,
+  },
+  'fields.outbidEmail': {
+    key: 'outbidEmail',
+    transform: documentToHtmlString,
+  },
+  'fields.validateEmail': {
+    key: 'validateEmail',
+    transform: documentToHtmlString,
+  },
   'fields.liveUrl': 'liveUrl',
 };
 

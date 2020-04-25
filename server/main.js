@@ -2,13 +2,14 @@ import '../imports/api/auctions';
 import { Bidders } from '../imports/api/bidders';
 import { Items } from '../imports/api/items';
 import { Notifications } from '../imports/api/notifications';
-import { sendTemplateEmail } from '../imports/api/email';
+
+import Emails from '../imports/api/emails';
 
 (function() {
   let isInitializing = true;
 
   Notifications.find({}).observeChanges({
-    added: (id, fields) => {
+    added: (_, fields) => {
       if (isInitializing) { return; }
 
       const item = Items.findOne({ _id: fields.itemId });
@@ -18,23 +19,10 @@ import { sendTemplateEmail } from '../imports/api/email';
 
       switch (fields.type) {
         case 'bid':
-          sendTemplateEmail({
-            templateName: 'BidEmail',
-            to: bidder.emailAddress,
-            data: {
-              itemTitle: item.content.title,
-            },
-          });
+          Emails.bidReceived(bidder, item);
           break;
         case 'outbid':
-          sendTemplateEmail({
-            templateName: 'OutbidEmail',
-            to: bidder.emailAddress,
-            data: {
-              itemId: item._id,
-              itemTitle: item.content.title,
-            },
-          });
+          Emails.outbid(bidder, item);
           break;
         default: break;
       }

@@ -17,6 +17,7 @@
     "classnames": "^2.2.6",
     "history": "^4.10.1",
     "meteor-node-stubs": "^1.0.0",
+    "mustache": "^4.0.1",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
     "react-dom": "^16.13.0",

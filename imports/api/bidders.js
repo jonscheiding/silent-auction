@@ -3,7 +3,7 @@ import { Random } from 'meteor/random';
 import { Mongo } from 'meteor/mongo';
 import { check, Match } from 'meteor/check';
 
-import { sendTemplateEmail } from './email';
+import Emails from './emails';
 
 export const Bidders = new Mongo.Collection('bidders');
 
@@ -25,20 +25,15 @@ Meteor.methods({
     }
 
     const validationCode = Random.hexString(16);
-
-    Bidders.insert({
+    const bidder = {
       emailAddress,
       validationCode,
       isValidated: false,
-    });
+    };
 
-    if (Meteor.isServer) {
-      sendTemplateEmail({
-        templateName: 'ValidationEmail',
-        to: emailAddress,
-        data: { validationCode },
-      });
-    }
+    Bidders.insert(bidder);
+
+    Emails.validate(bidder);
   },
 
   'bidders.validate'(validationCode) {
@@ -61,11 +56,7 @@ Meteor.methods({
 
     const bidder = Bidders.findOne({ _id: bidderId });
 
-    sendTemplateEmail({
-      templateName: 'ValidationEmail',
-      to: bidder.emailAddress,
-      data: { validationCode: bidder.validationCode },
-    });
+    Emails.validate(bidder);
 
     Bidders.update(
       { _id: bidderId },
