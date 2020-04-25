@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 import styled from 'styled-components';
 
 import { AspectContainer } from './util/AspectContainer';
+import { HtmlContent } from './util/HtmlContent';
 import { BidControls } from './BidControls';
 
 const AspectVideo = styled(AspectContainer)`
@@ -46,6 +47,7 @@ export const ItemDetails = ({
         <Modal.Title>
           {item.content.title}
           <h5>by {item.content.artist}</h5>
+          <h6><i>{item.content.medium}</i></h6>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -55,6 +57,9 @@ export const ItemDetails = ({
           alt={item.content.title}
           show={item.content.videoId == null}
         />
+        <ItemDetails.Description>
+          <HtmlContent html={item.content.description} />
+        </ItemDetails.Description>
       </Modal.Body>
       <Modal.Footer>
         <BidControls
@@ -82,3 +87,7 @@ ItemDetails.Image = ({ src, alt, show }) => {
 
   return <img src={src} alt={alt} style={{ width: '100%' }} />;
 };
+
+ItemDetails.Description = styled.div`
+  padding: 0.5rem;
+`;
