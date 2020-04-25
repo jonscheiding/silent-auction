@@ -70,13 +70,21 @@ const commands = {
 
     const auctionItemEntries = await client.getEntries({
       content_type: 'auctionItem',
-      'fields.auction': auctionEntry.id,
+      'fields.auction.sys.id': process.env.CONTENTFUL_AUCTION_ENTRY_ID,
     });
 
     const auction = objectMapper(auctionEntry, auctionMap);
 
     const auctionItems = auctionItemEntries.items.map(
-      (auctionItemEntry) => objectMapper(auctionItemEntry, auctionItemMap),
+      (auctionItemEntry) => {
+        try {
+          return objectMapper(auctionItemEntry, auctionItemMap);
+        } catch (e) {
+          console.error(`Error mapping entry ${auctionItemEntry.sys.id}.`);
+          console.error(JSON.stringify(auctionItemEntry, null, '  '));
+          throw e;
+        }
+      },
     );
 
     const content = {
