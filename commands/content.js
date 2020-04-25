@@ -5,6 +5,9 @@ const contentful = require('contentful');
 const { documentToHtmlString } = require('@contentful/rich-text-html-renderer');
 const objectMapper = require('object-mapper');
 
+// eslint-disable-next-line no-unused-vars
+const { Db } = require('mongodb');
+
 function extractAssetUrl(value) {
   if (!value) { return null; }
 
@@ -70,6 +73,40 @@ const auctionItemMap = {
 };
 
 const commands = {
+  /**
+   * @param {Db} db
+   */
+  resetDb: async (db, auctionId) => {
+    const auction = await db.collection('auctions').findOne({});
+    if (auction._id !== auctionId) {
+      throw new Error(`Auction ID does not match.  Should be '${auction._id}'.`);
+    }
+
+    await db
+      .collection('bidders')
+      .deleteMany({});
+
+    await db
+      .collection('items')
+      .updateMany({}, {
+        $set: {
+          bids: [],
+          closed: false,
+        },
+      });
+
+    await db
+      .collection('auctions')
+      .updateMany({}, {
+        $set: {
+          isLive: false,
+          activeItemId: null,
+          isEnded: false,
+          isStarted: false,
+        },
+      });
+  },
+
   refreshContent: async ({ verbose }) => {
     const client = contentful.createClient({
       accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,

@@ -24,7 +24,7 @@ export const CANNOT_BID_REASON = {
 
 export const bidderStatus = (item, bidder, auction) => {
   const isLoggedIn = bidder._id != null;
-  const isWinning = item.currentBid.bidderId === bidder._id;
+  const isWinning = bidder._id != null && item.currentBid.bidderId === bidder._id;
   const isInterested = !isWinning
   && item.bids.find((b) => b.bidderId === bidder._id) != null;
 

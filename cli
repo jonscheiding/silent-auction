@@ -71,6 +71,18 @@ yargs
     commands.refreshContent,
   )
 
+  .command(
+    'reset-db',
+    'Deletes all bids, bidders and auction status information from the database.  USE WITH CAUTION!',
+    (y) => y
+      .option('auctionId', {
+        describe: 'Pass the auction ID to confirm you really want to do this.',
+        required: true,
+        type: 'string',
+      }),
+    (argv) => command(commands.resetDb, argv.auctionId),
+  )
+
   .demandCommand()
   .strict()
   .help()
