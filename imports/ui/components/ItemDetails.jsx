@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import YouTube from 'react-youtube';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { AspectContainer } from './util/AspectContainer';
 import { HtmlContent } from './util/HtmlContent';
@@ -39,6 +39,9 @@ export const ItemDetails = ({
   item, status, show, onHide, onBid,
 }) => {
   const canHide = onHide != null;
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+
+  const toggleImageZoomed = () => setIsImageZoomed(!isImageZoomed);
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -53,10 +56,15 @@ export const ItemDetails = ({
       <Modal.Body>
         <ItemDetails.Video videoId={item.content.videoId} />
         <ItemDetails.Image
-          src={item.content.fullImageUrl || item.content.previewImageUrl}
-          alt={item.content.title}
           show={item.content.videoId == null}
-        />
+          zoom={isImageZoomed}
+          onClick={toggleImageZoomed}
+        >
+          <img
+            src={item.content.fullImageUrl || item.content.previewImageUrl}
+            alt={item.content.title}
+          />
+        </ItemDetails.Image>
         <ItemDetails.Description>
           <HtmlContent html={item.content.description} />
         </ItemDetails.Description>
@@ -82,11 +90,25 @@ ItemDetails.Video = ({ videoId }) => {
   );
 };
 
-ItemDetails.Image = ({ src, alt, show }) => {
-  if (!show || src == null) { return null; }
+ItemDetails.Image = styled.button`
+  border: none;
+  padding: 0;
+  width: 100%;
+  text-align: center;
 
-  return <img src={src} alt={alt} style={{ width: '100%' }} />;
-};
+  display: ${(props) => (props.show ? 'initial' : 'none')};
+  cursor: ${(props) => (props.zoom ? 'zoom-out' : 'zoom-in')} !important;
+
+  &:focus, &:active {
+    outline: none;
+  }
+  
+  > img {
+    ${(props) => (props.zoom
+    ? css`width: 100%;`
+    : css`max-height: 50vw;`)}
+  }
+`;
 
 ItemDetails.Description = styled.div`
   padding: 0.5rem;
