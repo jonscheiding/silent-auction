@@ -106,7 +106,10 @@ ItemDetails.Image = styled.button`
   > img {
     ${(props) => (props.zoom
     ? css`width: 100%;`
-    : css`max-height: 50vw;`)}
+    : css`
+      max-height: 30vw;
+      max-width: 100%;
+    `)}
   }
 `;
 
