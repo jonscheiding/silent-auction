@@ -5,12 +5,11 @@ import styled from 'styled-components';
 import { useCurrentAuction } from '../hooks/meteor';
 import { HtmlContent } from './util/HtmlContent';
 
-import { positionFixed } from '../../util';
-
 const NavbarFixed = styled.div`
   > .navbar {
     
-    ${positionFixed('100%')}
+    position: fixed;
+    width: 100%;
 
     text-align: center;
     z-index: 100;
