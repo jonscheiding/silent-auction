@@ -101,6 +101,7 @@ export const ItemDetails = ({
 };
 
 ItemDetails.Navigate = styled.button`
+  display: ${(props) => (props.show ? 'initial' : 'none')};
   position: absolute;
   top: 0;
   ${(props) => props.align}: 0;
