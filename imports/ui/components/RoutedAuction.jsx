@@ -20,6 +20,19 @@ export const RoutedAuction = () => {
     router.navigate.main();
   }
 
+  const handleNavigateItem = (direction) => {
+    let selectedItemIndex = items.findIndex((i) => i._id === selectedItemId);
+    selectedItemIndex += direction;
+
+    if (selectedItemIndex < 0) {
+      selectedItemIndex = items.length + selectedItemIndex;
+    } else if (selectedItemIndex >= items.length) {
+      selectedItemIndex -= items.length;
+    }
+
+    router.navigate.item(items[selectedItemIndex]._id);
+  };
+
   return (
     <Auction
       items={items}
@@ -28,6 +41,7 @@ export const RoutedAuction = () => {
       selectedItemId={activeItemId || selectedItemId}
       onSelectItem={activeItemId == null ? handleSelectItem : null}
       onDeselectItem={activeItemId == null ? handleDeselectItem : null}
+      onNavigateItem={activeItemId == null ? handleNavigateItem : null}
     />
   );
 };

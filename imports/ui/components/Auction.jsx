@@ -1,6 +1,7 @@
 import React from 'react';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+
 import { AuctionItem } from './AuctionItem';
 
 function bindToItem(fn, item) {
@@ -10,7 +11,7 @@ function bindToItem(fn, item) {
 }
 
 export const Auction = ({
-  items, bidder, auction, selectedItemId, onSelectItem, onDeselectItem,
+  items, bidder, auction, selectedItemId, onSelectItem, onDeselectItem, onNavigateItem,
 }) => (
   <Row>
     {items.map((item) => (
@@ -22,6 +23,7 @@ export const Auction = ({
           selected={item._id === selectedItemId}
           onSelect={bindToItem(onSelectItem, item)}
           onDeselect={bindToItem(onDeselectItem, item)}
+          onNavigate={onNavigateItem}
         />
       </Col>
     ))}

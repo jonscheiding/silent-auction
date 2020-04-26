@@ -40,7 +40,7 @@ const ClosedHeader = ({ isClosed, isSold }) => {
 };
 
 export const AuctionItem = ({
-  item, bidder, auction, selected, onSelect, onDeselect,
+  item, bidder, auction, selected, onSelect, onDeselect, onNavigate,
 }) => {
   const status = bidderStatus(item, bidder, auction);
   const { addToast } = useToasts();
@@ -82,6 +82,7 @@ export const AuctionItem = ({
         show={selected}
         onHide={onDeselect}
         onBid={onBid}
+        onNavigate={onNavigate}
       />
       <Card onClick={onSelect}>
         <ClosedHeader isClosed={status.isClosed} isSold={status.isSold} />

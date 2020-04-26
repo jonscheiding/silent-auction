@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
+import { BsCaretRightFill, BsCaretLeftFill } from 'react-icons/bs';
 import YouTube from 'react-youtube';
 import styled, { css } from 'styled-components';
 
@@ -9,6 +10,8 @@ import { HtmlContent } from './util/HtmlContent';
 import { BidControls } from './BidControls';
 
 const AspectVideo = styled(AspectContainer)`
+  width: calc(100% - 3rem);
+  margin: auto;
   > div {
     width: 100%;
     height: 100%;
@@ -36,9 +39,10 @@ const ClosedAlert = ({ isClosed, isSold }) => {
 };
 
 export const ItemDetails = ({
-  item, status, show, onHide, onBid,
+  item, status, show, onHide, onBid, onNavigate,
 }) => {
   const canHide = onHide != null;
+  const canNavigate = canHide;
   const [isImageZoomed, setIsImageZoomed] = useState(false);
 
   const toggleImageZoomed = () => setIsImageZoomed(!isImageZoomed);
@@ -54,17 +58,33 @@ export const ItemDetails = ({
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <ItemDetails.Video videoId={item.content.videoId} />
-        <ItemDetails.Image
-          show={item.content.videoId == null}
-          zoom={isImageZoomed}
-          onClick={toggleImageZoomed}
-        >
-          <img
-            src={item.content.fullImageUrl || item.content.previewImageUrl}
-            alt={item.content.title}
-          />
-        </ItemDetails.Image>
+        <div style={{ position: 'relative' }}>
+          <ItemDetails.Navigate
+            show={canNavigate}
+            onClick={() => onNavigate(-1)}
+            align="left"
+          >
+            <BsCaretLeftFill />
+          </ItemDetails.Navigate>
+          <ItemDetails.Navigate
+            show={canNavigate}
+            onClick={() => onNavigate(1)}
+            align="right"
+          >
+            <BsCaretRightFill />
+          </ItemDetails.Navigate>
+          <ItemDetails.Video videoId={item.content.videoId} />
+          <ItemDetails.Image
+            show={item.content.videoId == null}
+            zoom={isImageZoomed}
+            onClick={toggleImageZoomed}
+          >
+            <img
+              src={item.content.fullImageUrl || item.content.previewImageUrl}
+              alt={item.content.title}
+            />
+          </ItemDetails.Image>
+        </div>
         <ItemDetails.Description>
           <HtmlContent html={item.content.description} />
         </ItemDetails.Description>
@@ -79,6 +99,28 @@ export const ItemDetails = ({
     </Modal>
   );
 };
+
+ItemDetails.Navigate = styled.button`
+  position: absolute;
+  top: 0;
+  ${(props) => props.align}: 0;
+  height: 100%;
+  width: 2rem;
+
+  border: none;
+  padding: 0;
+  &:focus, &:active {
+    outline: none;
+  }
+
+  background: none;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.25);
+  }
+
+  z-index: 5000;
+`;
 
 ItemDetails.Video = ({ videoId }) => {
   if (videoId == null) { return null; }
