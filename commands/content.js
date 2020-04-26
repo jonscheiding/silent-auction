@@ -91,7 +91,7 @@ const commands = {
       .updateMany({}, {
         $set: {
           bids: [],
-          closed: false,
+          isClosed: false,
         },
       });
 
