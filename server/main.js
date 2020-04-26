@@ -1,11 +1,19 @@
-import '../imports/api/auctions';
+import { Meteor } from 'meteor/meteor';
+import { onPageLoad } from 'meteor/server-render';
+
+import { Auctions } from '../imports/api/auctions';
 import { Bidders } from '../imports/api/bidders';
 import { Items } from '../imports/api/items';
 import { Notifications } from '../imports/api/notifications';
 
 import Emails from '../imports/api/emails';
 
-(function() {
+onPageLoad((sink) => {
+  const auction = Auctions.findOne({});
+  sink.appendToHead(`<title>${auction.content.title}</title>`);
+});
+
+Meteor.startup(() => {
   let isInitializing = true;
 
   Notifications.find({}).observeChanges({
@@ -30,4 +38,4 @@ import Emails from '../imports/api/emails';
   });
 
   isInitializing = false;
-}());
+});
