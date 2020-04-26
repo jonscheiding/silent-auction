@@ -1,9 +1,44 @@
 /* eslint-disable no-console */
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const stringify = util.promisify(require('csv-stringify'));
+
+// eslint-disable-next-line no-unused-vars
+const { Db } = require('mongodb');
 
 const commands = {
   order: (db, itemIds) => db
     .collection('auctions')
     .updateOne({}, { $set: { orderedItemIds: itemIds } }),
+
+  /**
+   * @param {Db} db
+   */
+  listItems: async (db) => {
+    const items = await db
+      .collection('items')
+      .find({})
+      .toArray();
+
+    const contentFullPath = path.resolve('./content.json');
+    const content = JSON.parse(fs.readFileSync(contentFullPath));
+
+    const itemsData = items
+      .map((item) => {
+        const itemContent = content.items.find((i) => i.reference === item.reference)
+      || {};
+
+        return {
+          id: item._id,
+          title: itemContent.title,
+          artist: itemContent.artist,
+        };
+      })
+      .filter((item) => item.title != null);
+
+    console.log(await stringify(itemsData));
+  },
 
   next: async (db) => {
     const auction = await db

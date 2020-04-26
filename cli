@@ -32,6 +32,13 @@ yargs
   )
 
   .command(
+    'items',
+    'Dumps metadata about all items in CSV format.',
+    () => {},
+    () => command(commands.listItems),
+  )
+
+  .command(
     'active <itemId>|none|next',
     'Set an item as the current active item.',
     (y) => y
