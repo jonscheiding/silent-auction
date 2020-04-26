@@ -14,15 +14,20 @@ export const RoutedAuction = () => {
   const handleDeselectItem = () => router.navigate.main();
 
   const { selectedItemId } = router.params;
+  const { activeItemId } = auction;
+
+  if (activeItemId != null && selectedItemId != null) {
+    router.navigate.main();
+  }
 
   return (
     <Auction
       items={items}
       bidder={bidder}
       auction={auction}
-      selectedItemId={selectedItemId}
-      onSelectItem={handleSelectItem}
-      onDeselectItem={handleDeselectItem}
+      selectedItemId={activeItemId || selectedItemId}
+      onSelectItem={activeItemId == null ? handleSelectItem : null}
+      onDeselectItem={activeItemId == null ? handleDeselectItem : null}
     />
   );
 };

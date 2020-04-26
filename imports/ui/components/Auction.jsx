@@ -3,6 +3,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { AuctionItem } from './AuctionItem';
 
+function bindToItem(fn, item) {
+  if (fn == null) { return null; }
+
+  return () => fn(item);
+}
+
 export const Auction = ({
   items, bidder, auction, selectedItemId, onSelectItem, onDeselectItem,
 }) => (
@@ -14,8 +20,8 @@ export const Auction = ({
           bidder={bidder}
           auction={auction}
           selected={item._id === selectedItemId}
-          onSelect={() => onSelectItem(item)}
-          onDeselect={() => onDeselectItem(item)}
+          onSelect={bindToItem(onSelectItem, item)}
+          onDeselect={bindToItem(onDeselectItem, item)}
         />
       </Col>
     ))}
