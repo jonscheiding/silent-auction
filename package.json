@@ -34,6 +34,9 @@
     }
   },
   "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/register": "^7.9.0",
     "@contentful/rich-text-html-renderer": "^13.4.0",
     "@meteorjs/eslint-config-meteor": "^1.0.5",
     "@types/yargs": "^15.0.4",

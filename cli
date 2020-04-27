@@ -1,4 +1,5 @@
 #!node
+require('@babel/register');
 
 const yargs = require('yargs');
 
@@ -87,6 +88,20 @@ yargs
         type: 'string',
       }),
     (argv) => command(commands.resetDb, argv.auctionId),
+  )
+
+  .command(
+    'report <report>',
+    `Shows reports of bidder and item statuses.
+    items   - Lists the active items in CSV format.
+    bidders - Lists the e-mail addresses of all currently-winning bidders.
+    auction - Shows status for all items and bidders.`,
+    (y) => y
+      .positional('report', {
+        describe: 'Which report to run.',
+        choices: ['items', 'bidders', 'auction'],
+      }),
+    (argv) => command(commands.report[argv.report]),
   )
 
   .demandCommand()

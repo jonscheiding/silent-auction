@@ -1,6 +1,41 @@
 /* eslint-disable no-console */
+const path = require('path');
+const fs = require('fs');
 const { exec } = require('child_process');
 const { MongoClient } = require('mongodb');
+
+let content;
+
+function ensureContentLoaded() {
+  if (content != null) { return; }
+
+  const contentFullPath = path.resolve('./content.json');
+  content = JSON.parse(fs.readFileSync(contentFullPath));
+}
+
+function addItemContent(item) {
+  ensureContentLoaded();
+
+  const itemContent = content.items.find((i) => i.reference === item.reference);
+  if (itemContent == null) { return item; }
+
+  return {
+    ...item,
+    content: itemContent,
+  };
+}
+
+function addAuctionContent(auction) {
+  ensureContentLoaded();
+
+  const auctionContent = content.auction;
+  if (auctionContent == null) { return auction; }
+
+  return {
+    ...auction,
+    content: auction.content,
+  };
+}
 
 function mongoUrl() {
   if (process.env.MONGO_URL) {
@@ -37,4 +72,4 @@ async function mongoExecute(callback) {
   client.close();
 }
 
-module.exports = { mongoExecute };
+module.exports = { mongoExecute, addItemContent, addAuctionContent };
