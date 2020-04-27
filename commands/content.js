@@ -79,7 +79,8 @@ const commands = {
   resetDb: async (db, auctionId) => {
     const auction = await db.collection('auctions').findOne({});
     if (auction._id !== auctionId) {
-      throw new Error(`Auction ID does not match.  Should be '${auction._id}'.`);
+      console.warn(`Run with --auctionId ${auction._id} to confirm you want to reset all bids and statuses.`);
+      return;
     }
 
     await db

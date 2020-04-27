@@ -84,7 +84,6 @@ yargs
     (y) => y
       .option('auctionId', {
         describe: 'Pass the auction ID to confirm you really want to do this.',
-        required: true,
         type: 'string',
       }),
     (argv) => command(commands.resetDb, argv.auctionId),
