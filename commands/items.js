@@ -1,9 +1,38 @@
 /* eslint-disable no-console */
 
+const { getContent } = require('./util');
+
 const commands = {
-  order: (db, itemIds) => db
-    .collection('auctions')
-    .updateOne({}, { $set: { orderedItemIds: itemIds } }),
+  order: async (db, orderReference) => {
+    const content = getContent();
+
+    if (orderReference == null) {
+      console.info('Available item orderings:');
+      for (const o of content.orders) {
+        console.info(`${o.reference} ${o.name}`);
+      }
+
+      return;
+    }
+
+    const order = content.orders.find((o) => o.reference === orderReference);
+
+    if (order == null) {
+      throw new Error(`Could not find an ordering with reference '${orderReference}'.`);
+    }
+
+    const items = await db
+      .collection('items')
+      .find({ reference: { $in: order.references } })
+      .toArray();
+
+    const itemIds = order.references.map((r) =>
+      items.find((i) => i.reference === r)._id);
+
+    db
+      .collection('auctions')
+      .updateOne({}, { $set: { orderedItemIds: itemIds } });
+  },
 
   next: async (db) => {
     const auction = await db
@@ -17,7 +46,7 @@ const commands = {
     try {
       await commands.bidding(db, 'active', true);
     } catch (e) {
-      console.warn(e.message);
+      console.warn(`Failed to close bidding on previously active item. ${e.message}`);
     }
 
     if (auction.orderedItemIds.length === 0) {

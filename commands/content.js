@@ -14,6 +14,22 @@ function extractAssetUrl(value) {
   return value.fields.file.url;
 }
 
+/**
+ * @param {contentful.EntryCollection} entries
+ * @param {*} map
+ */
+function mapItems(entries, map) {
+  return entries.items.map((entry) => {
+    try {
+      return objectMapper(entry, map);
+    } catch (e) {
+      console.error(`Error mapping entry ${entry.sys.id}.`);
+      console.error(JSON.stringify(entry, null, '  '));
+      throw e;
+    }
+  });
+}
+
 const auctionMap = {
   'sys.id': 'reference',
   'fields.title': 'title',
@@ -50,6 +66,15 @@ const auctionMap = {
     transform: documentToHtmlString,
   },
   'fields.liveUrl': 'liveUrl',
+};
+
+const auctionOrderMap = {
+  'sys.id': 'reference',
+  'fields.name': 'name',
+  'fields.auctionItems[]': {
+    key: 'references[]',
+    transform: (value) => value.sys.id,
+  },
 };
 
 const auctionItemMap = {
@@ -124,23 +149,30 @@ const commands = {
       'fields.auction.sys.id': process.env.CONTENTFUL_AUCTION_ENTRY_ID,
     });
 
-    const auction = objectMapper(auctionEntry, auctionMap);
+    const auctionOrderEntries = await client.getEntries({
+      content_type: 'auctionOrder',
+      'fields.auction.sys.id': process.env.CONTENTFUL_AUCTION_ENTRY_ID,
+    });
 
-    const auctionItems = auctionItemEntries.items.map(
-      (auctionItemEntry) => {
-        try {
-          return objectMapper(auctionItemEntry, auctionItemMap);
-        } catch (e) {
-          console.error(`Error mapping entry ${auctionItemEntry.sys.id}.`);
-          console.error(JSON.stringify(auctionItemEntry, null, '  '));
-          throw e;
+    const auction = objectMapper(auctionEntry, auctionMap);
+    const auctionItems = mapItems(auctionItemEntries, auctionItemMap);
+    const auctionOrders = mapItems(auctionOrderEntries, auctionOrderMap);
+
+    for (const order of auctionOrders) {
+      order.references = order.references.filter((r) => {
+        if (auctionItems.find((i) => i.reference === r) == null) {
+          console.warn(`Auction order '${order.reference}' references item '${r}' that is not part of the auction.`);
+          return false;
         }
-      },
-    );
+
+        return true;
+      });
+    }
 
     const content = {
       auction,
       items: auctionItems,
+      orders: auctionOrders,
     };
 
     const contentFullPath = path.resolve('./content.json');
