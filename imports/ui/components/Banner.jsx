@@ -36,10 +36,13 @@ function auctionStatus(auction) {
     };
   }
 
-  if (auction.isLive && (auction.content.liveMessage || auction.content.liveUrl)) {
+  if (auction.isLive && (
+    auction.content.liveMessage
+    || auction.liveUrl
+    || auction.content.liveUrl)) {
     return {
       message: auction.content.liveMessage || 'Click to join the live event!',
-      url: auction.content.liveUrl,
+      url: auction.liveUrl || auction.content.liveUrl,
       bg: 'primary',
     };
   }
@@ -60,6 +63,7 @@ export const Banner = () => {
           href={status.url}
           target="_blank"
           rel="noopener noreferrer"
+          style={{ whiteSpace: 'break-spaces' }}
         >
           <HtmlContent html={status.message} />
         </Navbar.Brand>
