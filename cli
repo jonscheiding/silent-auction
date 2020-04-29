@@ -23,13 +23,21 @@ yargs
   )
 
   .command(
-    'order <itemIds...>',
+    'order <reference>',
     'Set the order of items for the live auction.',
     (y) => y
-      .positional('itemIds', {
-        describe: 'The IDs (in order) of the items to auction.',
+      .positional('reference', {
+        describe: 'The Contentful ID of the Auction Order entry defining the ordering.',
+        required: false,
       }),
-    (argv) => command(commands.order, argv.itemIds),
+    (argv) => command(commands.order, argv.reference),
+  )
+
+  .command(
+    'orders',
+    'Displays the available item orderings.',
+    () => {},
+    () => command(commands.order, null),
   )
 
   .command(

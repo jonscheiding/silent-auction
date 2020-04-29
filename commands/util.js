@@ -13,6 +13,12 @@ function ensureContentLoaded() {
   content = JSON.parse(fs.readFileSync(contentFullPath));
 }
 
+function getContent() {
+  ensureContentLoaded();
+
+  return content;
+}
+
 function addItemContent(item) {
   ensureContentLoaded();
 
@@ -72,4 +78,6 @@ async function mongoExecute(callback) {
   client.close();
 }
 
-module.exports = { mongoExecute, addItemContent, addAuctionContent };
+module.exports = {
+  mongoExecute, getContent, addItemContent, addAuctionContent,
+};
