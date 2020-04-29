@@ -12,14 +12,37 @@ function command(fn, ...args) {
 // eslint-disable-next-line no-unused-expressions
 yargs
   .command(
-    'auction <status>',
+    'auction',
     'Control the status of the auction.',
     (y) => y
-      .positional('status', {
-        choices: ['preview', 'started', 'live', 'ended'],
-        description: 'The bidding and live status of the auction.',
-      }),
-    (argv) => command(commands.auction, argv.status),
+      .command(
+        'preview',
+        'Sets the auction to preview mode, with no bidding allowed.',
+        () => {},
+        () => command(commands.auction, 'preview'),
+      )
+      .command(
+        'started',
+        'Sets the auction as started, with bidding open.',
+        () => {},
+        () => command(commands.auction, 'started'),
+      )
+      .command(
+        'live',
+        'Sets the auction as live, with bidding open and a banner indicating the live event is in progress.',
+        (yy) => yy
+          .option('url', {
+            description: 'The URL to present in the banner (overrides the value from Contentful).',
+          }),
+        (argv) => command(commands.auction, 'live', argv),
+      )
+      .command(
+        'ended',
+        'Sets the auction to ended mode, with all bidding closed.',
+        () => {},
+        () => command(commands.auction, 'ended'),
+      )
+      .demandCommand(),
   )
 
   .command(
