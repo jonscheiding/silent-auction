@@ -14,8 +14,12 @@ const NavbarFixed = styled.div`
     width: 100%;
 
     text-align: center;
-    z-index: 100;
+    z-index: 250;
     justify-content: center;
+
+    button {
+      white-space: break-spaces;
+    }
   }
 
   padding-bottom: 56px;

@@ -14,6 +14,7 @@ const HeaderAlert = styled(Alert)`
   position: absolute;
   right: 3rem;
   top: 1.5rem;
+  z-index: 150;
 `;
 
 const ClosedAlert = ({ isClosed, isSold }) => {
