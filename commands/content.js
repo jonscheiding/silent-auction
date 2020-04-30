@@ -33,10 +33,6 @@ function mapItems(entries, map) {
 const auctionMap = {
   'sys.id': 'reference',
   'fields.title': 'title',
-  'fields.bannerImage': {
-    key: 'bannerImageUrl',
-    transform: extractAssetUrl,
-  },
   'fields.welcomeMessage': {
     key: 'welcomeMessage',
     transform: documentToHtmlString,
