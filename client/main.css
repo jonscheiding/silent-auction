@@ -25,3 +25,7 @@ main {
 .alert .btn-link, .alert .btn-link:hover, .alert .btn-link:visited, .alert .btn-link:active {
   color: inherit;
 }
+
+li > p {
+  margin-bottom: 0.25rem;
+}
