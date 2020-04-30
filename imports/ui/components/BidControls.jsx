@@ -19,7 +19,7 @@ const BidEntryRow = styled(Row)`
 `;
 
 export const BidControls = ({ currentAmount, status, onBid }) => {
-  const minimumAmount = currentAmount + 1;
+  const minimumAmount = currentAmount === 0 ? 10 : currentAmount + 1;
   const initialAmount = currentAmount + 10;
   const [enteredAmount, setEnteredAmount] = useState(initialAmount);
 
