@@ -10,11 +10,19 @@ function bindToItem(fn, item) {
   return () => fn(item);
 }
 
+function byArtistAndTitle(a, b) {
+  if (a.content.artist < b.content.artist) { return -1; }
+  if (a.content.artist > b.content.artist) { return 1; }
+  if (a.content.title < b.content.title) { return -1; }
+  if (a.content.title > b.content.title) { return 1; }
+  return 0;
+}
+
 export const Auction = ({
   items, bidder, auction, selectedItemId, onSelectItem, onDeselectItem, onNavigateItem,
 }) => (
   <Row>
-    {items.map((item) => (
+    {items.sort(byArtistAndTitle).map((item) => (
       <Col md={6} lg={4} key={item._id}>
         <AuctionItem
           item={item}
