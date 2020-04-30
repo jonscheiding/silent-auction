@@ -82,6 +82,7 @@ const auctionItemMap = {
   'fields.title': 'title',
   'fields.artist': 'artist',
   'fields.medium': 'medium',
+  'fields.category': 'category',
   'fields.fullImage': {
     key: 'fullImageUrl',
     transform: extractAssetUrl,
