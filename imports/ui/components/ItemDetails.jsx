@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Alert from 'react-bootstrap/Alert';
 import { BsCaretRightFill, BsCaretLeftFill } from 'react-icons/bs';
+import { FiZoomIn, FiZoomOut } from 'react-icons/fi';
 import YouTube from 'react-youtube';
 import styled, { css } from 'styled-components';
 
@@ -83,6 +84,7 @@ export const ItemDetails = ({
               src={item.content.fullImageUrl || item.content.previewImageUrl}
               alt={item.content.title}
             />
+            <div>{isImageZoomed ? <FiZoomOut /> : <FiZoomIn />}</div>
           </ItemDetails.Image>
         </div>
         <ItemDetails.Description>
@@ -135,6 +137,7 @@ ItemDetails.Video = ({ videoId }) => {
 
 ItemDetails.Image = styled.button`
   border: none;
+  background: none;
   padding: 0;
   width: 100%;
   text-align: center;
