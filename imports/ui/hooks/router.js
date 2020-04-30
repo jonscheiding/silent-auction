@@ -8,6 +8,7 @@ export const useRouter = () => {
     params,
     navigate: {
       main: () => history.push('/'),
+      live: () => history.push('/live'),
       item: (itemId) => history.push(`/items/${itemId}`),
       validationHelp: () => history.push('/validate/help'),
     },

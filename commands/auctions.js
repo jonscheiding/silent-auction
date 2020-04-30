@@ -7,14 +7,14 @@ const commands = {
         set.isStarted = true;
         set.isLive = false;
         set.isEnded = false;
-        set.liveUrl = null;
+        set.liveVideoId = null;
         break;
 
       case 'ended':
         set.isStarted = true;
         set.isLive = false;
         set.isEnded = true;
-        set.liveUrl = null;
+        set.liveVideoId = null;
         break;
 
       case 'live':
@@ -22,7 +22,7 @@ const commands = {
         set.isLive = true;
         set.isEnded = false;
 
-        set.liveUrl = argv.url;
+        set.liveVideoId = argv.videoId;
 
         break;
 
@@ -30,7 +30,7 @@ const commands = {
         set.isStarted = false;
         set.isLive = false;
         set.isEnded = false;
-        set.liveUrl = null;
+        set.liveVideoId = null;
         break;
 
       default:

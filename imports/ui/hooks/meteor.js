@@ -28,7 +28,6 @@ export const useItems = () => useTracker(() => Items.find({}).fetch()
 
 export const useItem = (id) => useTracker(() => Items.findOne({ _id: id }));
 
-
 export const useBidNotifications = (bidderId, itemId, fn) => {
   if (Meteor.isServer) { return; }
 

@@ -6,6 +6,7 @@ import { Layout } from './components/Layout';
 import { RoutedAuction } from './components/RoutedAuction';
 import { RoutedValidate } from './components/RoutedValidate';
 import { RoutedValidateHelp } from './components/RoutedValidateHelp';
+import { RoutedLive } from './components/RoutedLive';
 
 export const App = ({ history }) => (
   <ToastsProvider>
@@ -17,6 +18,10 @@ export const App = ({ history }) => (
           </Route>
           <Route path="/validate/:validationCode">
             <RoutedValidate />
+          </Route>
+          <Route path="/live">
+            <RoutedLive />
+            <RoutedAuction />
           </Route>
           <Route path={['/items/:selectedItemId', '/']}>
             <RoutedAuction />

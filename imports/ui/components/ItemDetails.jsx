@@ -10,16 +10,6 @@ import { AspectContainer } from './util/AspectContainer';
 import { HtmlContent } from './util/HtmlContent';
 import { BidControls } from './BidControls';
 
-const AspectVideo = styled(AspectContainer)`
-  width: calc(100% - 3rem);
-  margin: auto;
-  > div {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-  }
-`;
-
 const HeaderAlert = styled(Alert)`
   position: absolute;
   right: 3rem;
@@ -50,14 +40,7 @@ export const ItemDetails = ({
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
-      <Modal.Header closeButton={canHide}>
-        <ClosedAlert isClosed={status.isClosed} isSold={status.isSold} />
-        <Modal.Title>
-          {item.content.title}
-          <h5>by {item.content.artist}</h5>
-          <h6><i>{item.content.medium}</i></h6>
-        </Modal.Title>
-      </Modal.Header>
+      <ItemDetails.Header item={item} status={status} canHide={canHide} />
       <Modal.Body>
         <div style={{ position: 'relative' }}>
           <ItemDetails.Navigate
@@ -102,6 +85,17 @@ export const ItemDetails = ({
   );
 };
 
+ItemDetails.Header = ({ item, status, canHide }) => (
+  <Modal.Header closeButton={canHide}>
+    <ClosedAlert isClosed={status.isClosed} isSold={status.isSold} />
+    <Modal.Title>
+      {item.content.title}
+      <h5>by {item.content.artist}</h5>
+      <h6><i>{item.content.medium}</i></h6>
+    </Modal.Title>
+  </Modal.Header>
+);
+
 ItemDetails.Navigate = styled.button`
   display: ${(props) => (props.show ? 'initial' : 'none')};
   position: absolute;
@@ -129,9 +123,9 @@ ItemDetails.Video = ({ videoId }) => {
   if (videoId == null) { return null; }
 
   return (
-    <AspectVideo ratio={16 / 9}>
+    <AspectContainer.Video ratio={16 / 9}>
       <YouTube videoId={videoId} opts={{ width: '100%', height: '100%' }} />
-    </AspectVideo>
+    </AspectContainer.Video>
   );
 };
 

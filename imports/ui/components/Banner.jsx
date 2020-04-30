@@ -1,9 +1,11 @@
 import React from 'react';
 import Navbar from 'react-bootstrap/Navbar';
+import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
 
 import { useCurrentAuction } from '../hooks/meteor';
 import { HtmlContent } from './util/HtmlContent';
+import { useRouter } from '../hooks/router';
 
 const NavbarFixed = styled.div`
   > .navbar {
@@ -36,13 +38,9 @@ function auctionStatus(auction) {
     };
   }
 
-  if (auction.isLive && (
-    auction.content.liveMessage
-    || auction.liveUrl
-    || auction.content.liveUrl)) {
+  if (auction.isLive && auction.liveVideoId) {
     return {
-      message: auction.content.liveMessage || 'Click to join the live event!',
-      url: auction.liveUrl || auction.content.liveUrl,
+      message: auction.content.liveMessage || 'Click to watch the live event!',
       bg: 'primary',
     };
   }
@@ -53,6 +51,7 @@ function auctionStatus(auction) {
 export const Banner = () => {
   const auction = useCurrentAuction();
   const status = auctionStatus(auction);
+  const router = useRouter();
 
   if (status == null) { return null; }
 
@@ -60,10 +59,9 @@ export const Banner = () => {
     <NavbarFixed>
       <Navbar bg={status.bg}>
         <Navbar.Brand
-          href={status.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ whiteSpace: 'break-spaces' }}
+          as={Button}
+          onClick={router.navigate.live}
+          variant="link"
         >
           <HtmlContent html={status.message} />
         </Navbar.Brand>

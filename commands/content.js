@@ -65,7 +65,6 @@ const auctionMap = {
     key: 'validateEmail',
     transform: documentToHtmlString,
   },
-  'fields.liveUrl': 'liveUrl',
 };
 
 const auctionOrderMap = {
