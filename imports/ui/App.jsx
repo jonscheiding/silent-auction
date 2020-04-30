@@ -1,6 +1,5 @@
 import React from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 
 import { ToastsProvider } from './hooks/toasts';
 import { Layout } from './components/Layout';
@@ -8,9 +7,7 @@ import { RoutedAuction } from './components/RoutedAuction';
 import { RoutedValidate } from './components/RoutedValidate';
 import { RoutedValidateHelp } from './components/RoutedValidateHelp';
 
-const history = createBrowserHistory();
-
-export const App = () => (
+export const App = ({ history }) => (
   <ToastsProvider>
     <Router history={history}>
       <Layout>

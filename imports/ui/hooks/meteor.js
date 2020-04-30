@@ -8,14 +8,12 @@ import { Auctions } from '../../api/auctions';
 import { useLocalBidderEmail } from './localStorage';
 import { Notifications } from '../../api/notifications';
 
-export const useCurrentAuction = () => useTracker(() => {
-  Meteor.subscribe('auctions');
-
-  return Auctions.findOne({}) || {};
-});
+export const useCurrentAuction = () => useTracker(() => Auctions.findOne({}) || {});
 
 export const useBidderInformation = (emailAddress) => useTracker(() => {
-  Meteor.subscribe('bidders.get', emailAddress);
+  if (Meteor.isClient) {
+    Meteor.subscribe('bidders.get', emailAddress);
+  }
 
   return Bidders.findOne({ emailAddress });
 });
@@ -25,21 +23,15 @@ export const useLocalBidderInformation = () => {
   return useBidderInformation(emailAddress) || { emailAddress };
 };
 
-export const useItems = () => useTracker(() => {
-  Meteor.subscribe('items');
+export const useItems = () => useTracker(() => Items.find({}).fetch()
+  .filter((item) => item.content != null));
 
-  return Items.find({}).fetch()
-    .filter((item) => item.content != null);
-});
-
-export const useItem = (id) => useTracker(() => {
-  Meteor.subscribe('items');
-
-  return Items.findOne({ _id: id });
-});
+export const useItem = (id) => useTracker(() => Items.findOne({ _id: id }));
 
 
 export const useBidNotifications = (bidderId, itemId, fn) => {
+  if (Meteor.isServer) { return; }
+
   useEffect(() => {
     const subscription = Meteor.subscribe('notifications', bidderId, itemId);
     const observer = Notifications.find({ bidderId, itemId }).observeChanges({
