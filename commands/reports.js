@@ -26,6 +26,7 @@ const commands = {
           id: item._id,
           title: item.content.title,
           artist: item.content.artist,
+          bid: item.bids.length === 0 ? 0 : item.bids[0].amount,
         }));
 
       console.log(await stringify(itemsData));
@@ -66,6 +67,8 @@ const commands = {
         .map(addItemContent)
         .toArray();
 
+      let total = 0;
+
       for (const bidder of bidders) {
         console.info(bidder.emailAddress, bidder.isValidated ? '' : '(not validated)');
 
@@ -96,11 +99,18 @@ const commands = {
 
         console.info(`${item.content.title} - ${item.content.artist}`);
 
+        if (item.bids.length > 0) {
+          total += item.bids[0].amount;
+        }
+
         for (const bid of item.bids) {
           const bidder = bidders.find((b) => b._id === bid.bidderId);
           console.info(`  ${bidder.emailAddress} - ${formatCurrency(bid.amount)}`);
         }
       }
+
+      console.info();
+      console.info(`TOTAL: ${formatCurrency(total)}`);
     },
   },
 };
