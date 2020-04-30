@@ -31,8 +31,9 @@ yargs
         'live',
         'Sets the auction as live, with bidding open and a banner indicating the live event is in progress.',
         (yy) => yy
-          .option('url', {
-            description: 'The URL to present in the banner (overrides the value from Contentful).',
+          .option('videoId', {
+            description: 'The video ID for the live stream.',
+            required: true,
           }),
         (argv) => command(commands.auction, 'live', argv),
       )

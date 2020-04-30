@@ -10,3 +10,13 @@ export const AspectContainer = styled.div`
   height: 0;
   padding-bottom: ${(props) => getPercentage(props.ratio)};
 `;
+
+AspectContainer.Video = styled(AspectContainer)`
+  width: calc(100% - 3rem);
+  margin: auto;
+  > div {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+  }
+`;
