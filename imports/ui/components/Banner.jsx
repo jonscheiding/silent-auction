@@ -38,13 +38,9 @@ function auctionStatus(auction) {
     };
   }
 
-  if (auction.isLive && (
-    auction.content.liveMessage
-    || auction.liveUrl
-    || auction.content.liveUrl)) {
+  if (auction.isLive && auction.liveVideoId) {
     return {
       message: auction.content.liveMessage || 'Click to watch the live event!',
-      url: auction.liveUrl || auction.content.liveUrl,
       bg: 'primary',
     };
   }
