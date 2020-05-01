@@ -1,8 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import { onPageLoad } from 'meteor/server-render';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { createMemoryHistory } from 'history';
+// import React from 'react';
+// import { renderToString } from 'react-dom/server';
+// import { createMemoryHistory } from 'history';
 
 import { Auctions } from '../imports/api/auctions';
 import { Bidders } from '../imports/api/bidders';
