@@ -102,6 +102,10 @@ const commands = {
    * @param {Db} db
    */
   resetDb: async (db, auctionId) => {
+    if (process.env.MONGO_URL != null) {
+      console.warn(`MONGO_URL is set to ${process.env.MONGO_URL}.`);
+    }
+
     const auction = await db.collection('auctions').findOne({});
     if (auction._id !== auctionId) {
       console.warn(`Run with --auctionId ${auction._id} to confirm you want to reset all bids and statuses.`);

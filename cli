@@ -51,7 +51,7 @@ yargs
     'Set the order of items for the live auction.',
     (y) => y
       .positional('reference', {
-        describe: 'The Contentful ID of the Auction Order entry defining the ordering.',
+        describe: 'The Contentful ID of the Auction Order entry defining the ordering, or "list" to get a list of options.',
         required: false,
       }),
     (argv) => command(commands.order, argv.reference),

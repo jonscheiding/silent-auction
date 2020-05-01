@@ -1,12 +1,12 @@
 /* eslint-disable no-console */
 
-const { getContent } = require('./util');
+const { getContent, addItemContent } = require('./util');
 
 const commands = {
   order: async (db, orderReference) => {
     const content = getContent();
 
-    if (orderReference == null) {
+    if (orderReference === 'list') {
       console.info('Available item orderings:');
       for (const o of content.orders) {
         console.info(`${o.reference} ${o.name}`);
@@ -24,10 +24,16 @@ const commands = {
     const items = await db
       .collection('items')
       .find({ reference: { $in: order.references } })
+      .map(addItemContent)
       .toArray();
 
-    const itemIds = order.references.map((r) =>
-      items.find((i) => i.reference === r)._id);
+    const orderedItems = order.references.map((r) =>
+      items.find((i) => i.reference === r));
+
+    const itemIds = orderedItems.map((i) => i._id);
+    const itemTitles = orderedItems.map((i) => i.content.title);
+
+    console.info(itemTitles.join('\n'));
 
     db
       .collection('auctions')
