@@ -1,3 +1,4 @@
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Tabs from 'react-bootstrap/Tabs';
@@ -55,6 +56,13 @@ RoutedLive.ModalContents = ({
 
   const status = bidderStatus(item, bidder, auction);
 
+  const onBid = (amount) => {
+    Meteor.call('items.bid',
+      item._id,
+      bidder._id,
+      amount);
+  };
+
   return (
     <>
       <ItemDetails.Header item={item} status={status} canHide />
@@ -69,7 +77,7 @@ RoutedLive.ModalContents = ({
         </Tabs>
       </Modal.Body>
       <Modal.Footer>
-        <BidControls currentAmount={item.currentBid.amount} status={status} />
+        <BidControls currentAmount={item.currentBid.amount} status={status} onBid={onBid} />
       </Modal.Footer>
     </>
   );
