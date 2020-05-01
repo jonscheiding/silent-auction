@@ -55,3 +55,35 @@ export const bidderStatus = (item, bidder, auction) => {
     cannotBidReason,
   };
 };
+
+export function groupBy(arr, fn) {
+  return arr.reduce(function(rv, x) {
+    const key = fn(x);
+    // eslint-disable-next-line no-param-reassign
+    (rv[key] = rv[key] || []).push(x);
+    return rv;
+  }, {});
+}
+
+export function byEmail(a, b) {
+  if (a.emailAddress < b.emailAddress) { return -1; }
+  if (a.emailAddress > b.emailAddress) { return 1; }
+  return 0;
+}
+
+export function byArtistAndTitle(a, b) {
+  if (a.content.artist < b.content.artist) { return -1; }
+  if (a.content.artist > b.content.artist) { return 1; }
+  if (a.content.title < b.content.title) { return -1; }
+  if (a.content.title > b.content.title) { return 1; }
+  return 0;
+}
+
+export function findNeighbor(array, element, increment) {
+  let index = array.findIndex(element);
+  index += increment;
+  while (index < 0) { index += array.length; }
+  while (index >= array.length) { index -= array.length; }
+
+  return array[index];
+}

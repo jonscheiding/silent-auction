@@ -3,37 +3,12 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { AuctionItem } from './AuctionItem';
+import { groupBy, findNeighbor, byArtistAndTitle } from '../../util';
 
 function bindToItem(fn, item) {
   if (fn == null) { return null; }
 
   return () => fn(item);
-}
-
-function groupBy(arr, fn) {
-  return arr.reduce(function(rv, x) {
-    const key = fn(x);
-    // eslint-disable-next-line no-param-reassign
-    (rv[key] = rv[key] || []).push(x);
-    return rv;
-  }, {});
-}
-
-function byArtistAndTitle(a, b) {
-  if (a.content.artist < b.content.artist) { return -1; }
-  if (a.content.artist > b.content.artist) { return 1; }
-  if (a.content.title < b.content.title) { return -1; }
-  if (a.content.title > b.content.title) { return 1; }
-  return 0;
-}
-
-function findNeighbor(array, element, increment) {
-  let index = array.findIndex(element);
-  index += increment;
-  while (index < 0) { index += array.length; }
-  while (index >= array.length) { index -= array.length; }
-
-  return array[index];
 }
 
 export const Auction = ({

@@ -6,7 +6,7 @@ const stringify = util.promisify(require('csv-stringify'));
 const { Db } = require('mongodb');
 
 const { addItemContent } = require('./util');
-const { formatCurrency } = require('../imports/util');
+const { formatCurrency, byArtistAndTitle, byEmail } = require('../imports/util');
 
 const commands = {
   report: {
@@ -69,7 +69,7 @@ const commands = {
 
       let total = 0;
 
-      for (const bidder of bidders) {
+      for (const bidder of bidders.sort(byEmail)) {
         console.info(bidder.emailAddress, bidder.isValidated ? '' : '(not validated)');
 
         for (const item of items) {
@@ -90,13 +90,9 @@ const commands = {
 
       console.info();
 
-      for (const item of items) {
-        if (!item.content) {
-          console.warn(`Missing content for item with ID '${item._id}'.`);
-          // eslint-disable-next-line no-continue
-          continue;
-        }
-
+      for (const item of items
+        .filter((i) => i.content != null)
+        .sort(byArtistAndTitle)) {
         console.info(`${item.content.title} - ${item.content.artist}`);
 
         if (item.bids.length > 0) {
