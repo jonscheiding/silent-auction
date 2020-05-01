@@ -35,45 +35,17 @@ export const ItemDetails = ({
 }) => {
   const canHide = onHide != null;
   const canNavigate = canHide;
-  const [isImageZoomed, setIsImageZoomed] = useState(false);
-
-  const toggleImageZoomed = () => setIsImageZoomed(!isImageZoomed);
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
       <ItemDetails.Header item={item} status={status} canHide={canHide} />
       <Modal.Body>
-        <div style={{ position: 'relative' }}>
-          <ItemDetails.Navigate
-            show={canNavigate}
-            onClick={() => onNavigate(-1)}
-            align="left"
-          >
-            <BsCaretLeftFill />
-          </ItemDetails.Navigate>
-          <ItemDetails.Navigate
-            show={canNavigate}
-            onClick={() => onNavigate(1)}
-            align="right"
-          >
-            <BsCaretRightFill />
-          </ItemDetails.Navigate>
-          <ItemDetails.Video videoId={item.content.videoId} />
-          <ItemDetails.Image
-            show={item.content.videoId == null}
-            zoom={isImageZoomed}
-            onClick={toggleImageZoomed}
-          >
-            <img
-              src={item.content.fullImageUrl || item.content.previewImageUrl}
-              alt={item.content.title}
-            />
-            <div>{isImageZoomed ? <FiZoomOut /> : <FiZoomIn />}</div>
-          </ItemDetails.Image>
-        </div>
-        <ItemDetails.Description>
-          <HtmlContent html={item.content.description} />
-        </ItemDetails.Description>
+        <ItemDetails.Content
+          item={item}
+          canNavigate={canNavigate}
+          onNavigate={onNavigate}
+          showVideo
+        />
       </Modal.Body>
       <Modal.Footer>
         <BidControls
@@ -96,6 +68,50 @@ ItemDetails.Header = ({ item, status, canHide }) => (
     </Modal.Title>
   </Modal.Header>
 );
+
+ItemDetails.Content = ({
+  item, showVideo, canNavigate, onNavigate,
+}) => {
+  const [isImageZoomed, setIsImageZoomed] = useState(false);
+
+  const toggleImageZoomed = () => setIsImageZoomed(!isImageZoomed);
+
+  return (
+    <>
+      <div style={{ position: 'relative' }}>
+        <ItemDetails.Navigate
+          show={canNavigate}
+          onClick={() => onNavigate(-1)}
+          align="left"
+        >
+          <BsCaretLeftFill />
+        </ItemDetails.Navigate>
+        <ItemDetails.Navigate
+          show={canNavigate}
+          onClick={() => onNavigate(1)}
+          align="right"
+        >
+          <BsCaretRightFill />
+        </ItemDetails.Navigate>
+        <ItemDetails.Video videoId={item.content.videoId} show={showVideo} />
+        <ItemDetails.Image
+          show={item.content.videoId == null}
+          zoom={isImageZoomed}
+          onClick={toggleImageZoomed}
+        >
+          <img
+            src={item.content.fullImageUrl || item.content.previewImageUrl}
+            alt={item.content.title}
+          />
+          <div>{isImageZoomed ? <FiZoomOut /> : <FiZoomIn />}</div>
+        </ItemDetails.Image>
+      </div>
+      <ItemDetails.Description>
+        <HtmlContent html={item.content.description} />
+      </ItemDetails.Description>
+    </>
+  );
+};
 
 ItemDetails.Navigate = styled.button`
   display: ${(props) => (props.show ? 'initial' : 'none')};
@@ -120,8 +136,8 @@ ItemDetails.Navigate = styled.button`
   z-index: 5000;
 `;
 
-ItemDetails.Video = ({ videoId }) => {
-  if (videoId == null) { return null; }
+ItemDetails.Video = ({ videoId, show }) => {
+  if (videoId == null || !show) { return null; }
 
   return (
     <AspectContainer.Video ratio={16 / 9}>

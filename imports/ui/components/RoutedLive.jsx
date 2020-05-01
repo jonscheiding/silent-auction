@@ -1,5 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
+import Tabs from 'react-bootstrap/Tabs';
+import Tab from 'react-bootstrap/Tab';
 import YouTube from 'react-youtube';
 
 import { useItem, useLocalBidderInformation, useCurrentAuction } from '../hooks/meteor';
@@ -57,7 +59,14 @@ RoutedLive.ModalContents = ({
     <>
       <ItemDetails.Header item={item} status={status} canHide />
       <Modal.Body>
-        {children}
+        <Tabs defaultActiveKey="live" style={{ marginBottom: '1rem' }}>
+          <Tab eventKey="live" title="Live">
+            {children}
+          </Tab>
+          <Tab eventKey="item" title="Details">
+            <ItemDetails.Content item={item} showVideo={false} />
+          </Tab>
+        </Tabs>
       </Modal.Body>
       <Modal.Footer>
         <BidControls currentAmount={item.currentBid.amount} status={status} />
