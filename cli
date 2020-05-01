@@ -126,7 +126,7 @@ yargs
     'report <report>',
     `Shows reports of bidder and item statuses.
     items   - Lists the active items in CSV format.
-    bidders - Lists the e-mail addresses of all currently-winning bidders.
+    bidders - Lists the e-mail addresses of all bidders.
     auction - Shows status for all items and bidders.`,
     (y) => y
       .positional('report', {

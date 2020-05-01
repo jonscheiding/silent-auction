@@ -36,15 +36,22 @@ const commands = {
      * @param {Db} db
      */
     bidders: async (db) => {
-      const currentBidderIds = await db
+      const items = await db
         .collection('items')
-        .find({ 'bids.0': { $exists: true } })
-        .map((i) => i.bids[0].bidderId)
+        .find({})
         .toArray();
+
+      const bidderIds = [];
+
+      for (const item of items) {
+        for (const bid of item.bids) {
+          bidderIds.push(bid.bidderId);
+        }
+      }
 
       const bidders = await db
         .collection('bidders')
-        .find({ _id: { $in: currentBidderIds } })
+        .find({ _id: { $in: bidderIds } })
         .toArray();
 
       for (const bidder of bidders) {
