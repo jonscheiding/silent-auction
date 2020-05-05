@@ -1,8 +1,5 @@
 import { Meteor } from 'meteor/meteor';
 import { onPageLoad } from 'meteor/server-render';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { createMemoryHistory } from 'history';
 
 import { Auctions } from '../imports/api/auctions';
 import { Bidders } from '../imports/api/bidders';
@@ -10,15 +7,10 @@ import { Items } from '../imports/api/items';
 import { Notifications } from '../imports/api/notifications';
 
 import Emails from '../imports/api/emails';
-import { App } from '../imports/ui/App';
-
-const history = createMemoryHistory();
 
 onPageLoad((sink) => {
   const auction = Auctions.findOne({});
   sink.appendToHead(`<title>${auction.content.title}</title>`);
-  sink.renderIntoElementById('react-target',
-    renderToString(<App history={history} />));
 });
 
 Meteor.startup(() => {
