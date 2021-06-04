@@ -1,4 +1,6 @@
-export MAIL_URL='smtp://username:password@host:587'
+export MAIL_USERNAME=username
+export MAIL_PASSWORD=password
+export MAIL_HOST=smtp.somewhere.com
 export MAIL_FROM='me@example.com'
 
 export CONTENTFUL_AUCTION_ENTRY_ID='xxxxxxxx'
