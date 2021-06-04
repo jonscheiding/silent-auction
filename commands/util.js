@@ -39,7 +39,7 @@ function addAuctionContent(auction) {
 
   return {
     ...auction,
-    content: auction.content,
+    content: auctionContent,
   };
 }
 

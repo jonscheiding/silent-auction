@@ -55,7 +55,7 @@ const commands = {
     /**
      * @param {Db} db
      */
-    auction: async (db) => {
+    auction: async (db, csv, json) => {
       const bidders = await db
         .collection('bidders')
         .find({})
@@ -66,6 +66,31 @@ const commands = {
         .find({})
         .map(addItemContent)
         .toArray();
+
+      if (csv || json) {
+        const bids = [];
+
+        for (const item of items) {
+          for (const bid of item.bids) {
+            const bidder = bidders.find((b) => b._id === bid.bidderId);
+
+            bids.push({
+              title: item.content.title,
+              artist: item.content.artist,
+              medium: item.content.medium,
+              bidder: bidder.emailAddress,
+              amount: bid.amount,
+              winner: bid === item.bids[0] ? 'YES' : 'NO',
+            });
+          }
+        }
+
+        if (csv) {
+          console.log(await stringify(bids, { header: true }));
+        }
+
+        return bids;
+      }
 
       let total = 0;
 
@@ -107,6 +132,7 @@ const commands = {
 
       console.info();
       console.info(`TOTAL: ${formatCurrency(total)}`);
+      return null;
     },
   },
 };
