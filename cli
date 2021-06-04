@@ -12,6 +12,12 @@ function command(fn, ...args) {
 // eslint-disable-next-line no-unused-expressions
 yargs
   .command(
+    'emails',
+    'Send emails to the winning bidders.',
+    () => {},
+    () => command(commands.emails),
+  )
+  .command(
     'auction',
     'Control the status of the auction.',
     (y) => y
@@ -132,8 +138,12 @@ yargs
       .positional('report', {
         describe: 'Which report to run.',
         choices: ['items', 'bidders', 'auction'],
+      })
+      .option('csv', {
+        describe: 'Produces the report in CSV format instead of human-friendly.',
+        type: 'boolean',
       }),
-    (argv) => command(commands.report[argv.report]),
+    (argv) => command(commands.report[argv.report], argv.csv),
   )
 
   .demandCommand()
