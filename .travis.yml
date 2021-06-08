@@ -11,9 +11,9 @@ script:
 - meteor npm run lint
 - meteor test --once --driver-package meteortesting:mocha
 
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: "meteor deploy --settings settings.deploy.json $METEORAPP_URL"
-  on:
-    branch: master
+# deploy:
+#   skip_cleanup: true
+#   provider: script
+#   script: "meteor deploy --settings settings.deploy.json $METEORAPP_URL"
+#   on:
+#     branch: master
